@@ -1,0 +1,9 @@
+.landing-container {
+  display: flex;
+}
+
+@media (max-width: 768px) {
+  .landing-container {
+    padding-bottom: 70px;
+  }
+}
