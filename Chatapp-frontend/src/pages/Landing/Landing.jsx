@@ -1,13 +1,18 @@
 import Header from "../../components/Header/Header";
 import Menu from "../../components/Menu/Menu";
+import ConversationDisplay from "../../components/ConversationDisplay/ConversationDisplay";
 import "./Landing.css";
 
-export function Landing(){
-  return(
+export function Landing() {
+  return (
     <>
-  <Header />
-  <Menu />
-</>
+      <Header />
+      <div className="landing-container">
+        <Menu />
+        <ConversationDisplay />
+      </div>
+
+    </>
 
   )
 }

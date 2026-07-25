@@ -1,5 +1,6 @@
 .landing-container {
   display: flex;
+  height: calc(100vh - 70px);
 }
 
 @media (max-width: 768px) {
