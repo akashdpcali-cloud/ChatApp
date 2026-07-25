@@ -8,6 +8,8 @@ import {
 
 import "./Login.css";
 
+import { Link } from "react-router-dom";
+
 function Login() {
 
   const [showPassword, setShowPassword] = useState(false);
@@ -82,11 +84,11 @@ function Login() {
 
         <div className="signup-message">
 
-          Don't have an account?
+          Don't have an account? 
 
-          <a href="" className="sighup-link">
+          <Link to="/signup" className="signup-link">
             Sign up
-          </a>
+          </Link>
 
         </div>
 
