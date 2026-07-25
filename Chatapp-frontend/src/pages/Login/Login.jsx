@@ -64,9 +64,12 @@ function Login() {
           LOGIN
         </button>
 
-        <a href="" className="forgot-password">
+        <Link
+          to="/forgot-password"
+          className="forgot-password"
+        >
           Forgot Password?
-        </a>
+        </Link>
 
         <div className="seperation-line">
           Or login with
@@ -76,7 +79,7 @@ function Login() {
 
           <img
             src="/google-icon.svg"
-            alt="" 
+            alt=""
             className="google-icon"
           />
 
@@ -84,7 +87,7 @@ function Login() {
 
         <div className="signup-message">
 
-          Don't have an account? 
+          Don't have an account?
 
           <Link to="/signup" className="signup-link">
             Sign up
