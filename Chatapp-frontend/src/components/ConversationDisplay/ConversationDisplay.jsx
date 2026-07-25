@@ -1,6 +1,6 @@
 import "./ConversationDisplay.css";
 
-function ConversationDisplay() {
+function ConversationDisplay({selectedChat, setSelectedChat}) {
   const conversations = [
     {
       id: 1,
@@ -32,7 +32,11 @@ function ConversationDisplay() {
   ];
 
   return (
-    <div className="conversation-display-section">
+    <div
+  className={`conversation-display-section ${
+    selectedChat ? "hide-conversations" : ""
+  }`}
+>
       <div className="section-name">Chats</div>
 
       <input
@@ -43,7 +47,7 @@ function ConversationDisplay() {
 
       <div className="conversations">
         {conversations.map((chat) => (
-          <div className="chat-details" key={chat.id}>
+          <div className="chat-details" key={chat.id} onClick={() => setSelectedChat(chat)} >
             <div className="chat-left-section">
               <img src="/chatapp-default-avatar.jpeg" alt="" className="profile-pic" />
 

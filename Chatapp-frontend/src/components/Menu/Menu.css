@@ -1,6 +1,6 @@
 .menu {
   width: 100px;
-  height: calc(100vh - 70px);
+  height: calc(100dvh - 70px);
 
   padding: 20px 0;
 
@@ -90,5 +90,8 @@
 
   .menu-title {
     font-size: 0.75rem;
+  }
+  .hide-menu {
+    display: none;
   }
 }

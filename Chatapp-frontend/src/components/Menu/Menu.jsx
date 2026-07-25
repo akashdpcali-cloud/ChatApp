@@ -1,9 +1,11 @@
 import "./Menu.css";
 import { House, MessageCircle, Users, User } from "lucide-react";
 
-function Menu() {
+function Menu({selectedChat}) {
   return (
-    <div className="menu">
+    <div
+  className={`menu ${selectedChat ? "hide-menu" : ""}`}
+>
       <div className="menu-sections">
         <House className="home-icon" />
         <div className="menu-title">Home</div>

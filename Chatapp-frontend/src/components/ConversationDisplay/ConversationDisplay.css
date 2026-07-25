@@ -1,6 +1,6 @@
 .conversation-display-section {
   width: 360px;
-  height: calc(100vh - 70px);
+  height: calc(100dvh - 70px);
 
   border-right: 1px solid #e5e5e5;
   background: #fff;
@@ -139,7 +139,7 @@
 @media (max-width: 768px) {
   .conversation-display-section {
     width: 100%;
-    height: calc(100vh - 70px - 70px); /* Header - Bottom Menu */
+    height: calc(100dvh - 70px - 70px); /* Header - Bottom Menu */
 
     border-right: none;
   }
