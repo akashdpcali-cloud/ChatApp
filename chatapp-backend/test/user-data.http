@@ -1,0 +1,2 @@
+GET http://localhost:5000/api/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbXMxd3JqNjQwMDAwZXAxd2YwMm9jbXZxIiwiaWF0IjoxNzg1MDc3MTI3LCJleHAiOjE3ODU2ODE5Mjd9.qzm0AgF4PXqA3kNvbE3rJrG9ckJi93AC_1ecCN53tT0

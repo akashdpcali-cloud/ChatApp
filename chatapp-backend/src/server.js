@@ -6,6 +6,8 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 
+import authRoutes from "./routes/auth.routes.js";
+
 const app = express();
 
 app.use(cors());
@@ -19,6 +21,8 @@ app.get("/", (req, res) => {
     message: "Chat App Backend Running",
   });
 });
+
+app.use("/api/auth", authRoutes);
 
 const PORT = process.env.PORT || 5000;
 
