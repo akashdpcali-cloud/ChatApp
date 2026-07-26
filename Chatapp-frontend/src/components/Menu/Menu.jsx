@@ -1,11 +1,11 @@
 import "./Menu.css";
 import { House, MessageCircle, Users, User } from "lucide-react";
 
-function Menu({selectedChat}) {
+function Menu({ selectedChat, setSelectedSection }) {
   return (
     <div
-  className={`menu ${selectedChat ? "hide-menu" : ""}`}
->
+      className={`menu ${selectedChat ? "hide-menu" : ""}`}
+    >
       <div className="menu-sections">
         <House className="home-icon" />
         <div className="menu-title">Home</div>
@@ -21,7 +21,10 @@ function Menu({selectedChat}) {
         <div className="menu-title">Groups</div>
       </div>
 
-      <div className="menu-sections">
+      <div
+        className="menu-sections"
+        onClick={() => setSelectedSection("profile")}
+      >
         <User className="home-icon" />
         <div className="menu-title">Profile</div>
       </div>

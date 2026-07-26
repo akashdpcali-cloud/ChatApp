@@ -50,12 +50,13 @@
   background-color: rgb(0, 153, 255);
 }
 
-.profile-section {
+.profile-section-header {
   display: flex;
   align-items: center;
   gap: 10px;
 
   cursor: pointer;
+  background-color: white;
 }
 
 .profile-pic {
