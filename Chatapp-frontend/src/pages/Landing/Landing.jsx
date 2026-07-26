@@ -3,6 +3,7 @@ import Menu from "../../components/Menu/Menu";
 import ConversationDisplay from "../../components/ConversationDisplay/ConversationDisplay";
 import MessageDisplay from "../../components/MessageDisplay/MessageDisplay";
 import ProfileSection from "../../components/ProfileSection/ProfileSection";
+import NewChat from "../../components/NewChat/NewChat";
 import { useState } from "react";
 import "./Landing.css";
 
@@ -13,7 +14,7 @@ export function Landing() {
 
   return (
     <>
-      <Header selectedChat={selectedChat} />
+      <Header selectedChat={selectedChat} setSelectedSection={setSelectedSection} />
       <div className="landing-container">
 
         <Menu
@@ -24,25 +25,30 @@ export function Landing() {
 
         <div className="landing-content">
 
-  {selectedSection === "chat" && (
-    <>
-      <ConversationDisplay
-        selectedChat={selectedChat}
-        setSelectedChat={setSelectedChat}
-      />
 
-      <MessageDisplay
-        selectedChat={selectedChat}
-        setSelectedChat={setSelectedChat}
-      />
-    </>
-  )}
+          {selectedSection === "chat" && (
+            <>
+              <ConversationDisplay
+                selectedChat={selectedChat}
+                setSelectedChat={setSelectedChat}
+              />
 
-  {selectedSection === "profile" && (
-    <ProfileSection />
-  )}
+              <MessageDisplay
+                selectedChat={selectedChat}
+                setSelectedChat={setSelectedChat}
+              />
+            </>
+          )}
 
-</div>
+          {selectedSection === "profile" && (
+            <ProfileSection />
+          )}
+
+          {selectedSection === "newChat" && (
+            <NewChat />
+          )}
+
+        </div>
 
       </div>
 
