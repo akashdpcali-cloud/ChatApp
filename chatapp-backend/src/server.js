@@ -7,6 +7,13 @@ import helmet from "helmet";
 import morgan from "morgan";
 
 import authRoutes from "./routes/auth.routes.js";
+import userRoutes from "./routes/user.routes.js";
+
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -24,8 +31,21 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 
+app.use("/api/users", userRoutes);
+
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "../public/uploads"))
+);
+
+app.use(
+  "/images",
+  express.static(path.join(__dirname, "../public/images"))
+);
+
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
