@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const API_URL = "http://localhost:5000/api/auth";
+const USER_API_URL = "http://localhost:5000/api/users";
 
 
 export const registerUser = async (userData) => {
@@ -49,4 +50,41 @@ export const getCurrentUser = async () => {
 
     return response.data;
 
+};
+
+export const deleteAccount = async () => {
+
+    const token = localStorage.getItem("token");
+
+    const response = await axios.delete(
+        `${API_URL}/delete-account`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+
+    return response.data;
+
+};
+
+export const changeUsername = async (fullName) => {
+
+    const token = localStorage.getItem("token");
+
+    const response = await axios.patch(
+        `${USER_API_URL}/change-username`,
+        {
+            fullName
+        },
+        {
+            headers:{
+                Authorization:`Bearer ${token}`,
+                "Content-Type":"application/json"
+            }
+        }
+    );
+
+    return response.data;
 };

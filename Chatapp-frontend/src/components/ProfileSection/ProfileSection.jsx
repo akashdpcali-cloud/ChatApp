@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Camera, Pencil } from "lucide-react";
-import { logoutUser } from "../../api/authApi";
+import { logoutUser, deleteAccount, changeUsername } from "../../api/authApi";
 import { useNavigate } from "react-router-dom";
 
 import useAuthStore from "../../store/authStore";
@@ -17,6 +17,78 @@ function ProfileSection() {
   const user = useAuthStore(
     (state) => state.user
   );
+
+  const setUser = useAuthStore(
+    (state) => state.setUser
+  );
+
+  const [editingUsername, setEditingUsername] = useState(false);
+
+  const [newUsername, setNewUsername] = useState(
+    user?.fullName || ""
+  );
+
+
+  const handleUsernameChange = async (e) => {
+
+    if (e.key === "Enter") {
+
+      try {
+
+        const data = await changeUsername(newUsername);
+
+
+        if (data.success) {
+
+          setUser(data.data.user);
+
+          setEditingUsername(false);
+
+        }
+
+
+      } catch (error) {
+
+        console.log(
+          error.response?.data?.message
+        );
+
+      }
+
+    }
+
+  };
+
+
+
+  const handleDeleteAccount = async () => {
+
+    try {
+
+      const data = await deleteAccount();
+
+
+      if (data.success) {
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+
+        navigate("/login");
+
+      }
+
+
+    } catch (error) {
+
+      console.log(
+        error.response?.data?.message ||
+        "Delete account failed"
+      );
+
+    }
+
+  };
 
   const handleLogout = async () => {
 
@@ -76,12 +148,12 @@ function ProfileSection() {
             <div className="picture-div">
 
               {user?.profilePicture && (
-            <img
-              src={`http://localhost:5000${user.profilePicture}`}
-              alt="profile"
-              className="profile-picture"
-            />
-          )}
+                <img
+                  src={`http://localhost:5000${user.profilePicture}`}
+                  alt="profile"
+                  className="profile-picture"
+                />
+              )}
 
 
 
@@ -91,11 +163,34 @@ function ProfileSection() {
 
             <div className="username-div">
 
-              <div className="username-display">
-                {user?.fullName}
-              </div>
+              {
+                editingUsername ?
 
-              <Pencil className="pencile-icon" />
+                  <input
+                    className="username-input"
+                    value={newUsername}
+                    onChange={(e) => setNewUsername(e.target.value)}
+                    onKeyDown={(e) => {
+                      handleUsernameChange(e);
+                    }}
+                    autoFocus
+                  />
+
+                  :
+
+                  <div className="username-display">
+                    {user?.fullName}
+                  </div>
+
+              }
+
+
+              <Pencil
+                className="pencile-icon"
+                onClick={() => {
+                  setEditingUsername(true);
+                }}
+              />
 
             </div>
 
@@ -233,8 +328,9 @@ function ProfileSection() {
 
               <button
                 className="delete-account-conferm-button"
+                onClick={handleDeleteAccount}
               >
-                Delete Account
+                Delete
               </button>
 
             </div>
