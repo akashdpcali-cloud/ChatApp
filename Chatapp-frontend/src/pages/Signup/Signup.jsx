@@ -10,14 +10,62 @@ import {
 
 import "./Signup.css";
 
-import { Link } from "react-router-dom";
+import { registerUser } from "../../api/authApi";
+import useAuthStore from "../../store/authStore";
+import { Link, useNavigate } from "react-router-dom";
 
 function Signup() {
+
+  const setUser = useAuthStore((state) => state.setUser);
 
   const [showPassword, setShowPassword] = useState(false);
 
   const [showConfirmPassword, setShowConfirmPassword] =
     useState(false);
+
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleSignup = async () => {
+
+    try {
+
+      const data = await registerUser({
+        fullName,
+        email,
+        password
+      });
+
+      if (data.success) {
+
+        localStorage.setItem(
+          "token",
+          data.data.token
+        );
+
+        localStorage.setItem(
+          "user",
+          JSON.stringify(data.data.user)
+        );
+
+        setUser(data.data.user);
+
+        navigate("/");
+
+      }
+
+    } catch (error) {
+
+      console.log(
+        error.response?.data?.message
+      );
+
+    }
+
+  };
 
   return (
     <>
@@ -40,6 +88,8 @@ function Signup() {
               type="text"
               className="fullname-input"
               placeholder="Full Name"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
             />
 
           </div>
@@ -52,6 +102,8 @@ function Signup() {
               type="email"
               className="mail-input"
               placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
 
           </div>
@@ -64,6 +116,8 @@ function Signup() {
               type={showPassword ? "text" : "password"}
               className="password-input"
               placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
 
             {showPassword ? (
@@ -88,6 +142,8 @@ function Signup() {
               type={showConfirmPassword ? "text" : "password"}
               className="password-input"
               placeholder="Confirm Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
 
             {showConfirmPassword ? (
@@ -108,7 +164,10 @@ function Signup() {
 
           </div>
 
-          <button className="signup-button">
+          <button
+            className="signup-button"
+            onClick={handleSignup}
+          >
             SIGN UP
           </button>
 

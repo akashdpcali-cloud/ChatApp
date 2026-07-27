@@ -18,7 +18,21 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 app.use(cors());
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
+
+app.use((req, res, next) => {
+  res.setHeader(
+    "Cross-Origin-Resource-Policy",
+    "cross-origin"
+  );
+
+  next();
+});
+
 app.use(morgan("dev"));
 app.use(express.json());
 

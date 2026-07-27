@@ -8,11 +8,64 @@ import {
 
 import "./Login.css";
 
-import { Link } from "react-router-dom";
+import { loginUser } from "../../api/authApi";
+import useAuthStore from "../../store/authStore";
+
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
 
+  const setUser = useAuthStore((state) => state.setUser);
+
   const [showPassword, setShowPassword] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+
+    try {
+
+      const data = await loginUser({
+        email,
+        password
+      });
+
+
+      if (data.success) {
+
+        localStorage.setItem(
+          "token",
+          data.data.token
+        );
+
+
+        localStorage.setItem(
+          "user",
+          JSON.stringify(data.data.user)
+        );
+
+        setUser(data.data.user);
+
+
+
+        navigate("/");
+
+      }
+
+
+    } catch (error) {
+
+      console.log(
+        error.response?.data?.message ||
+        "Login failed"
+      );
+
+    }
+
+  };
 
   return (
     <>
@@ -32,6 +85,8 @@ function Login() {
             type="email"
             className="mail-input"
             placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
 
         </div>
@@ -44,6 +99,8 @@ function Login() {
             type={showPassword ? "text" : "password"}
             className="password-input"
             placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
 
           {showPassword ? (
@@ -60,7 +117,10 @@ function Login() {
 
         </div>
 
-        <button className="login-button">
+        <button
+          className="login-button"
+          onClick={handleLogin}
+        >
           LOGIN
         </button>
 

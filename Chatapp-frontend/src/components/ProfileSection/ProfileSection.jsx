@@ -1,12 +1,50 @@
 import { useState } from "react";
 import { Camera, Pencil } from "lucide-react";
+import { logoutUser } from "../../api/authApi";
+import { useNavigate } from "react-router-dom";
+
+import useAuthStore from "../../store/authStore";
 
 import "./ProfileSection.css";
 
 function ProfileSection() {
 
+  const navigate = useNavigate();
+
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
+
+  const user = useAuthStore(
+    (state) => state.user
+  );
+
+  const handleLogout = async () => {
+
+    try {
+
+      const data = await logoutUser();
+
+
+      if (data.success) {
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+        navigate("/login");
+
+      }
+
+
+    } catch (error) {
+
+      console.log(
+        error.response?.data?.message ||
+        "Logout failed"
+      );
+
+    }
+
+  };
 
   const [blockedUsers] = useState([
     {
@@ -37,11 +75,15 @@ function ProfileSection() {
 
             <div className="picture-div">
 
-              <img
-                src="/chatapp-default-avatar.jpeg"
-                alt=""
-                className="profile-picture"
-              />
+              {user?.profilePicture && (
+            <img
+              src={`http://localhost:5000${user.profilePicture}`}
+              alt="profile"
+              className="profile-picture"
+            />
+          )}
+
+
 
               <Camera className="camera-icon" />
 
@@ -50,7 +92,7 @@ function ProfileSection() {
             <div className="username-div">
 
               <div className="username-display">
-                Username
+                {user?.fullName}
               </div>
 
               <Pencil className="pencile-icon" />
@@ -58,7 +100,7 @@ function ProfileSection() {
             </div>
 
             <div className="email-display">
-              username@gmail.com
+              {user?.email}
             </div>
 
           </div>
@@ -109,7 +151,7 @@ function ProfileSection() {
                 >
 
                   <img
-                    src={user.profilePicture}
+                    src="/chatapp-default-group.jpeg"
                     alt=""
                     className="blocked-profile-picture"
                   />
@@ -156,6 +198,7 @@ function ProfileSection() {
 
               <button
                 className="logout-conferm-button"
+                onClick={handleLogout}
               >
                 Logout
               </button>
