@@ -110,3 +110,28 @@ export const changeProfilePicture = async (image) => {
     return response.data;
 
 };
+
+export const changePassword = async (
+    currentPassword,
+    newPassword
+) => {
+
+    const token = localStorage.getItem("token");
+
+    const response = await axios.post(
+        `${API_URL}/change-password`,
+        {
+            currentPassword,
+            newPassword
+        },
+        {
+            headers:{
+                Authorization:`Bearer ${token}`,
+                "Content-Type":"application/json"
+            }
+        }
+    );
+
+    return response.data;
+
+};

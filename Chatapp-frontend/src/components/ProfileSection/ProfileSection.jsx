@@ -9,7 +9,7 @@ import "./ProfileSection.css";
 
 function ProfileSection() {
 
-  
+
 
   const navigate = useNavigate();
 
@@ -130,29 +130,29 @@ function ProfileSection() {
 
     try {
 
-        const data = await changeProfilePicture(image);
+      const data = await changeProfilePicture(image);
 
-        if (data.success) {
+      if (data.success) {
 
-            setUser(data.data.user);
+        setUser(data.data.user);
 
-            localStorage.setItem(
-                "user",
-                JSON.stringify(data.data.user)
-            );
+        localStorage.setItem(
+          "user",
+          JSON.stringify(data.data.user)
+        );
 
-        }
+      }
 
     } catch (error) {
 
-        console.log(
-            error.response?.data?.message ||
-            "Upload failed"
-        );
+      console.log(
+        error.response?.data?.message ||
+        "Upload failed"
+      );
 
     }
 
-};
+  };
 
 
 
@@ -194,19 +194,19 @@ function ProfileSection() {
               )}
 
               <input
-    type="file"
-    accept="image/*"
-    ref={fileInputRef}
-    style={{ display: "none" }}
-    onChange={handleImageSelect}
-/>
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleImageSelect}
+              />
 
 
 
               <Camera
-    className="camera-icon"
-    onClick={() => fileInputRef.current.click()}
-/>
+                className="camera-icon"
+                onClick={() => fileInputRef.current.click()}
+              />
 
             </div>
 
@@ -255,7 +255,10 @@ function ProfileSection() {
               Account
             </div>
 
-            <div className="change-password-div">
+            <div
+              className="change-password-div"
+              onClick={() => navigate("/change-password")}
+            >
               Change Password
             </div>
 
