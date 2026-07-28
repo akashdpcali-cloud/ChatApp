@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Camera, Pencil } from "lucide-react";
-import { logoutUser, deleteAccount, changeUsername } from "../../api/authApi";
+import { logoutUser, deleteAccount, changeUsername, changeProfilePicture } from "../../api/authApi";
 import { useNavigate } from "react-router-dom";
 
 import useAuthStore from "../../store/authStore";
@@ -8,6 +8,8 @@ import useAuthStore from "../../store/authStore";
 import "./ProfileSection.css";
 
 function ProfileSection() {
+
+  
 
   const navigate = useNavigate();
 
@@ -118,6 +120,42 @@ function ProfileSection() {
 
   };
 
+  const fileInputRef = useRef(null);
+
+  const handleImageSelect = async (e) => {
+
+    const image = e.target.files[0];
+
+    if (!image) return;
+
+    try {
+
+        const data = await changeProfilePicture(image);
+
+        if (data.success) {
+
+            setUser(data.data.user);
+
+            localStorage.setItem(
+                "user",
+                JSON.stringify(data.data.user)
+            );
+
+        }
+
+    } catch (error) {
+
+        console.log(
+            error.response?.data?.message ||
+            "Upload failed"
+        );
+
+    }
+
+};
+
+
+
   const [blockedUsers] = useState([
     {
       id: 1,
@@ -155,9 +193,20 @@ function ProfileSection() {
                 />
               )}
 
+              <input
+    type="file"
+    accept="image/*"
+    ref={fileInputRef}
+    style={{ display: "none" }}
+    onChange={handleImageSelect}
+/>
 
 
-              <Camera className="camera-icon" />
+
+              <Camera
+    className="camera-icon"
+    onClick={() => fileInputRef.current.click()}
+/>
 
             </div>
 

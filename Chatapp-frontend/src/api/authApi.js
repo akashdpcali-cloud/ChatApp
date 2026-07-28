@@ -88,3 +88,25 @@ export const changeUsername = async (fullName) => {
 
     return response.data;
 };
+
+export const changeProfilePicture = async (image) => {
+
+    const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+
+    formData.append("profilePicture", image);
+
+    const response = await axios.patch(
+        `${USER_API_URL}/profile-picture`,
+        formData,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+
+    return response.data;
+
+};
