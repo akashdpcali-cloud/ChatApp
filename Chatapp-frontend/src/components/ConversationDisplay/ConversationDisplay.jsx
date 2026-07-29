@@ -9,53 +9,53 @@ function ConversationDisplay({ selectedChat, setSelectedChat, selectedSection })
 
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
-useEffect(() => {
+  useEffect(() => {
 
     const fetchChats = async () => {
 
-        try {
+      try {
 
-            let data;
+        let data;
 
-            if (selectedSection === "home") {
+        if (selectedSection === "home") {
 
-                data = await getAllChats();
+          data = await getAllChats();
 
-            } else if (selectedSection === "chats") {
+        } else if (selectedSection === "chats") {
 
-                data = await getOneToOneChats();
+          data = await getOneToOneChats();
 
-            } else if (selectedSection === "groups") {
+        } else if (selectedSection === "groups") {
 
-                data = await getGroups();
+          data = await getGroups();
 
-            } else {
+        } else {
 
-                return;
-
-            }
-
-            if (selectedSection === "groups") {
-
-                setChats(data.data.groups);
-
-            } else {
-
-                setChats(data.data.chats);
-
-            }
-
-        } catch (error) {
-
-            console.error(error);
+          return;
 
         }
+
+        if (selectedSection === "groups") {
+
+          setChats(data.data.groups);
+
+        } else {
+
+          setChats(data.data.chats);
+
+        }
+
+      } catch (error) {
+
+        console.error(error);
+
+      }
 
     };
 
     fetchChats();
 
-}, [selectedSection]);
+  }, [selectedSection]);
 
   return (
     <div
@@ -93,8 +93,8 @@ useEffect(() => {
                 <img
                   src={
                     chat.isGroup
-                      ? "/chatapp-default-avatar.jpeg"
-                      : `http://localhost:5000${otherUser?.profilePicture}`
+                      ? `http://localhost:5000${chat.groupImage || "/images/chatapp-default-group.jpeg"}`
+                      : `http://localhost:5000${otherUser?.profilePicture || "/images/chatapp-default-avatar.jpeg"}`
                   }
                   alt=""
                   className="profile-pic"

@@ -50,3 +50,64 @@ export const getGroups = async () => {
     return response.data;
 
 };
+
+
+export const searchUsers = async (query) => {
+
+    const token = localStorage.getItem("token");
+
+    const response = await axios.get(
+        `http://localhost:5000/api/users/search?query=${encodeURIComponent(query)}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
+    return response.data;
+
+};
+
+
+export const createChat = async (userId) => {
+
+    const token = localStorage.getItem("token");
+
+    const response = await axios.post(
+        "http://localhost:5000/api/chats",
+        {
+            userId,
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
+    return response.data;
+
+};
+
+
+export const createGroup = async (groupName, memberIds) => {
+
+    const token = localStorage.getItem("token");
+
+    const response = await axios.post(
+        "http://localhost:5000/api/groups",
+        {
+            groupName,
+            memberIds,
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
+    return response.data;
+
+};

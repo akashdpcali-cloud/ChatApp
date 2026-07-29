@@ -1,38 +1,130 @@
 import { useState } from "react";
 import { Search, X } from "lucide-react";
 
+import { searchUsers, createChat, createGroup } from "../../api/chatApi";
+
 import "./NewChat.css";
 
-function NewChat() {
+function NewChat({ setSelectedSection, setSelectedChat }) {
 
   const [selectedTab, setSelectedTab] = useState("friend");
 
-  const [friendSearchResults] = useState([
-    {
-      id: 1,
-      username: "Cielo D P",
-      email: "cielo@email.com",
-      profilePicture: "/chatapp-default-avatar.jpeg"
-    }
-  ]);
+  const [searchText, setSearchText] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
-  const [groupSearchResults] = useState([
-    {
-      id: 1,
-      username: "John",
-      email: "john@email.com",
-      profilePicture: "/chatapp-default-avatar.jpeg"
-    }
-  ]);
+  const [groupSearchText, setGroupSearchText] = useState("");
+  const [groupSearchResults, setGroupSearchResults] = useState([]);
 
-  const [groupMembers] = useState([
-    {
-      id: 1,
-      username: "Akash",
-      email: "akash@email.com",
-      profilePicture: "/chatapp-default-avatar.jpeg"
+  const [groupMembers, setGroupMembers] = useState([]);
+
+  const [groupName, setGroupName] = useState("");
+
+  const handleSearch = async (e) => {
+
+
+    if (e.key !== "Enter") return;
+
+    try {
+
+      const data = await searchUsers(searchText);
+
+      setSearchResults(data.data.user);
+
+
+    } catch (error) {
+
+      console.error(error);
+
     }
-  ]);
+
+  };
+
+  const handleGroupSearch = async (e) => {
+
+    if (e.key !== "Enter") return;
+
+    try {
+
+      const data = await searchUsers(groupSearchText);
+
+      setGroupSearchResults(data.data.user);
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
+  };
+
+
+
+  const addMember = (user) => {
+
+    const alreadyAdded = groupMembers.some(
+      (member) => member.id === user.id
+    );
+
+    if (alreadyAdded) return;
+
+    setGroupMembers((prev) => [...prev, user]);
+
+  };
+
+
+
+  const removeMember = (id) => {
+
+    setGroupMembers((prev) =>
+      prev.filter((member) => member.id !== id)
+    );
+
+  };
+
+
+
+  const handleStartChat = async (user) => {
+
+    try {
+
+      const data = await createChat(user.id);
+
+      setSelectedSection("chats");
+
+      setSelectedChat(data.data.chat);
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
+  };
+
+
+
+  const handleCreateGroup = async () => {
+
+    try {
+
+        const memberIds = groupMembers.map((member) => member.id);
+
+        const data = await createGroup(groupName, memberIds);
+
+        setSelectedSection("groups");
+
+        setSelectedChat(data.data.group);
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+};
+
+
+
 
   return (
 
@@ -67,6 +159,9 @@ function NewChat() {
               type="text"
               placeholder="Search Email"
               className="friend-chat-search"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              onKeyDown={handleSearch}
             />
 
             <Search className="friend-chat-search-icon" />
@@ -76,38 +171,48 @@ function NewChat() {
 
           <div className="friend-search-result-div">
 
-            {friendSearchResults.map((user) => (
+            {searchResults.length === 0 ? (
 
-              <div
-                className="friend-search-result-details"
-                key={user.id}
-              >
+              <div className="no-users-found">
+                No users found
+              </div>
 
-                <img
-                  src={user.profilePicture}
-                  alt=""
-                  className="friend-search-result-details-profile-pic"
-                />
+            ) : (
 
-                <div className="friend-search-result-details-middle-section">
+              searchResults.map((user) => (
 
-                  <div className="friend-search-result-details-username">
-                    {user.username}
+                <div
+                  className="friend-search-result-details"
+                  key={user.id}
+                >
+
+                  <img
+                    src={`http://localhost:5000${user.profilePicture}`}
+                    alt=""
+                    className="friend-search-result-details-profile-pic"
+                  />
+
+                  <div className="friend-search-result-details-middle-section">
+
+                    <div className="friend-search-result-details-username">
+                      {user.fullName}
+                    </div>
+
+                    <div className="friend-search-result-details-email">
+                      {user.email}
+                    </div>
+
                   </div>
 
-                  <div className="friend-search-result-details-email">
-                    {user.email}
-                  </div>
+                  <button className="friend-search-result-details-start-chat-button" onClick={() => handleStartChat(user)} >
+                    Start Chat
+                  </button>
 
                 </div>
 
-                <button className="friend-search-result-details-start-chat-button">
-                  Start Chat
-                </button>
+              ))
 
-              </div>
-
-            ))}
+            )}
 
           </div>
 
@@ -127,6 +232,9 @@ function NewChat() {
               type="text"
               placeholder="Search Email"
               className="group-chat-search"
+              value={groupSearchText}
+              onChange={(e) => setGroupSearchText(e.target.value)}
+              onKeyDown={handleGroupSearch}
             />
 
             <Search className="group-chat-search-icon" />
@@ -136,43 +244,55 @@ function NewChat() {
 
           <div className="group-search-result-div">
 
-            {groupSearchResults.map((user) => (
+            {groupSearchResults.length === 0 ? (
 
-              <div
-                className="group-search-result-details"
-                key={user.id}
-              >
+              <div className="no-users-found">
+                No users found
+              </div>
 
-                <img
-                  src={user.profilePicture}
-                  alt=""
-                  className="group-search-result-details-profile-pic"
-                />
+            ) : (
 
-                <div className="group-search-result-details-middle-section">
+              groupSearchResults.map((user) => (
 
-                  <div className="group-search-result-details-username">
-                    {user.username}
+                <div
+                  className="group-search-result-details"
+                  key={user.id}
+                >
+
+                  <img
+                    src={`http://localhost:5000${user.profilePicture}`}
+                    alt=""
+                    className="group-search-result-details-profile-pic"
+                  />
+
+                  <div className="group-search-result-details-middle-section">
+
+                    <div className="group-search-result-details-username">
+                      {user.fullName}
+                    </div>
+
+                    <div className="group-search-result-details-email">
+                      {user.email}
+                    </div>
+
                   </div>
 
-                  <div className="group-search-result-details-email">
-                    {user.email}
-                  </div>
+                  <button className="group-search-result-details-add-to-group-button" onClick={() => addMember(user)} >
+                    Add
+                  </button>
 
                 </div>
 
-                <button className="group-search-result-details-add-to-group-button">
-                  Add
-                </button>
+              ))
 
-              </div>
-
-            ))}
+            )}
 
           </div>
 
 
           <div className="group-added-friends-list">
+
+            <div className="group-added-friends-list-title">NEW GROUP MEMBERS</div>
 
             {groupMembers.map((member) => (
 
@@ -182,7 +302,7 @@ function NewChat() {
               >
 
                 <img
-                  src={member.profilePicture}
+                  src={`http://localhost:5000${member.profilePicture}`}
                   alt=""
                   className="group-added-friend-profile-picture"
                 />
@@ -199,7 +319,7 @@ function NewChat() {
 
                 </div>
 
-                <X className="remove-added-friend-from-group" />
+                <X className="remove-added-friend-from-group" onClick={() => removeMember(member.id)} />
 
               </div>
 
@@ -212,11 +332,13 @@ function NewChat() {
 
             <input
               type="text"
-              placeholder="Enter Group Name"
+              placeholder="Enter group name"
               className="group-name-input"
+              value={groupName}
+              onChange={(e) => setGroupName(e.target.value)}
             />
 
-            <button className="group-create-button">
+            <button className="group-create-button" onClick={handleCreateGroup}>
               Create Group
             </button>
 

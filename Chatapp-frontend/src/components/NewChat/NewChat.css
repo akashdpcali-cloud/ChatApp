@@ -369,7 +369,10 @@
 
     gap: 15px;
 
-    padding-right: 6px;
+    border: rgb(0, 153, 255) 2px solid;
+    border-radius: 5px;
+    padding: 7px;
+    
 
 }
 
@@ -614,4 +617,13 @@
       padding: 15px 20px;
     }
 
+}
+
+.no-users-found{
+    align-self: center;
+}
+
+.group-added-friends-list-title{
+    color: rgb(0, 153, 255);
+    align-self: center;
 }

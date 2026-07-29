@@ -37,7 +37,7 @@ export function Landing() {
               <MessageDisplay
                 selectedChat={selectedChat}
                 setSelectedChat={setSelectedChat}
-                
+
               />
             </>
           )}
@@ -47,7 +47,10 @@ export function Landing() {
           )}
 
           {selectedSection === "newChat" && (
-            <NewChat />
+            <NewChat
+              setSelectedSection={setSelectedSection}
+              setSelectedChat={setSelectedChat}
+            />
           )}
 
         </div>
