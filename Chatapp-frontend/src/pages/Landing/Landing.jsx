@@ -4,10 +4,14 @@ import ConversationDisplay from "../../components/ConversationDisplay/Conversati
 import MessageDisplay from "../../components/MessageDisplay/MessageDisplay";
 import ProfileSection from "../../components/ProfileSection/ProfileSection";
 import NewChat from "../../components/NewChat/NewChat";
+import ErrorPopup from "../../components/ErrorPopup/ErrorPopup";
 import { useState } from "react";
 import "./Landing.css";
 
 export function Landing() {
+
+  const [errorMessage, setErrorMessage] = useState("");
+
 
   const [selectedChat, setSelectedChat] = useState(null);
   const [selectedSection, setSelectedSection] = useState("home");
@@ -43,19 +47,25 @@ export function Landing() {
           )}
 
           {selectedSection === "profile" && (
-            <ProfileSection />
+            <ProfileSection setErrorMessage={setErrorMessage} />
           )}
 
           {selectedSection === "newChat" && (
             <NewChat
               setSelectedSection={setSelectedSection}
               setSelectedChat={setSelectedChat}
+              setErrorMessage={setErrorMessage}
             />
           )}
 
         </div>
 
       </div>
+
+      <ErrorPopup
+        message={errorMessage}
+        onClose={() => setErrorMessage("")}
+      />
 
     </>
 

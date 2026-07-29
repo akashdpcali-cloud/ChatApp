@@ -13,7 +13,13 @@ import useAuthStore from "../../store/authStore";
 
 import { Link, useNavigate } from "react-router-dom";
 
+import ErrorPopup from "../../components/ErrorPopup/ErrorPopup";
+
+
 function Login() {
+
+  const [errorMessage, setErrorMessage] = useState("");
+
 
   const setUser = useAuthStore((state) => state.setUser);
 
@@ -58,9 +64,8 @@ function Login() {
 
     } catch (error) {
 
-      console.log(
-        error.response?.data?.message ||
-        "Login failed"
+      setErrorMessage(
+        error.response?.data?.message || "Something went wrong."
       );
 
     }
@@ -156,6 +161,12 @@ function Login() {
         </div>
 
       </div>
+
+      <ErrorPopup
+        message={errorMessage}
+        onClose={() => setErrorMessage("")}
+      />
+
     </>
   )
 }

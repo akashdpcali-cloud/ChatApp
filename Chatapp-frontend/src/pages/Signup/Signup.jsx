@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import ErrorPopup from "../../components/ErrorPopup/ErrorPopup";
+
 import {
   User,
   Mail,
@@ -15,6 +17,8 @@ import useAuthStore from "../../store/authStore";
 import { Link, useNavigate } from "react-router-dom";
 
 function Signup() {
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   const setUser = useAuthStore((state) => state.setUser);
 
@@ -59,8 +63,8 @@ function Signup() {
 
     } catch (error) {
 
-      console.log(
-        error.response?.data?.message
+      setErrorMessage(
+        error.response?.data?.message || "Something went wrong."
       );
 
     }
@@ -199,6 +203,11 @@ function Signup() {
 
       </div>
 
+
+      <ErrorPopup
+        message={errorMessage}
+        onClose={() => setErrorMessage("")}
+      />
 
     </>
   )

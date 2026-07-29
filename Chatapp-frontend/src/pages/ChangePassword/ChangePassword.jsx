@@ -2,11 +2,16 @@ import { useState } from "react";
 import { Lock, Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
+import ErrorPopup from "../../components/ErrorPopup/ErrorPopup";
+
+
 import { changePassword } from "../../api/authApi";
 
 import "./ChangePassword.css";
 
 function ChangePassword() {
+
+    const [errorMessage, setErrorMessage] = useState("");
 
     const navigate = useNavigate();
 
@@ -39,9 +44,9 @@ function ChangePassword() {
 
         } catch (error) {
 
-            alert(
-                error.response?.data?.message ||
-                "Something went wrong"
+
+            setErrorMessage(
+                error.response?.data?.message || "Something went wrong."
             );
 
         }
@@ -128,6 +133,10 @@ function ChangePassword() {
                 </Link>
 
             </div>
+            <ErrorPopup
+                message={errorMessage}
+                onClose={() => setErrorMessage("")}
+            />
         </>
     );
 }

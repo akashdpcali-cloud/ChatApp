@@ -7,7 +7,7 @@ import useAuthStore from "../../store/authStore";
 
 import "./ProfileSection.css";
 
-function ProfileSection() {
+function ProfileSection({setErrorMessage}) {
 
 
 
@@ -51,9 +51,9 @@ function ProfileSection() {
 
       } catch (error) {
 
-        console.log(
-          error.response?.data?.message
-        );
+        setErrorMessage(
+        error.response?.data?.message || "Something went wrong."
+      );
 
       }
 
@@ -83,9 +83,8 @@ function ProfileSection() {
 
     } catch (error) {
 
-      console.log(
-        error.response?.data?.message ||
-        "Delete account failed"
+      setErrorMessage(
+        error.response?.data?.message || "Delete account failed"
       );
 
     }
@@ -111,9 +110,8 @@ function ProfileSection() {
 
     } catch (error) {
 
-      console.log(
-        error.response?.data?.message ||
-        "Logout failed"
+      setErrorMessage(
+        error.response?.data?.message || "Logout failed"
       );
 
     }
@@ -145,9 +143,8 @@ function ProfileSection() {
 
     } catch (error) {
 
-      console.log(
-        error.response?.data?.message ||
-        "Upload failed"
+      setErrorMessage(
+        error.response?.data?.message || "Upload failed"
       );
 
     }

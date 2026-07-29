@@ -5,7 +5,7 @@ import { searchUsers, createChat, createGroup } from "../../api/chatApi";
 
 import "./NewChat.css";
 
-function NewChat({ setSelectedSection, setSelectedChat }) {
+function NewChat({ setSelectedSection, setSelectedChat, setErrorMessage }) {
 
   const [selectedTab, setSelectedTab] = useState("friend");
 
@@ -33,7 +33,9 @@ function NewChat({ setSelectedSection, setSelectedChat }) {
 
     } catch (error) {
 
-      console.error(error);
+      setErrorMessage(
+        error || "Something went wrong."
+      );
 
     }
 
@@ -51,7 +53,9 @@ function NewChat({ setSelectedSection, setSelectedChat }) {
 
     } catch (error) {
 
-      console.error(error);
+      setErrorMessage(
+        error || "Something went wrong."
+      );
 
     }
 
@@ -95,7 +99,9 @@ function NewChat({ setSelectedSection, setSelectedChat }) {
 
     } catch (error) {
 
-      console.error(error);
+      setErrorMessage(
+        error || "Something went wrong."
+      );
 
     }
 
@@ -116,8 +122,9 @@ function NewChat({ setSelectedSection, setSelectedChat }) {
         setSelectedChat(data.data.group);
 
     } catch (error) {
-
-        console.error(error);
+        setErrorMessage(
+        error || "Something went wrong."
+      );
 
     }
 
