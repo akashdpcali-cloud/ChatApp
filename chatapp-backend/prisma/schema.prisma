@@ -13,59 +13,54 @@ enum MessageType {
 }
 
 model User {
-  id                   String       @id @default(cuid())
+  id                   String    @id @default(cuid())
   fullName             String
-  email                String       @unique
+  email                String    @unique
   password             String
-  profilePicture       String @default("/images/chatapp-default-avatar.jpeg")
+  profilePicture       String    @default("/images/chatapp-default-avatar.jpeg")
   resetPasswordToken   String?
   resetPasswordExpires DateTime?
-  createdAt            DateTime     @default(now())
-  updatedAt            DateTime     @updatedAt
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
 
-  chats                ChatMember[]
-  messages             Message[]
+  participants ChatParticipant[]
+  messages     Message[]
 }
 
 model Chat {
-  id          String       @id @default(cuid())
-  isGroup     Boolean      @default(false)
-  groupName   String?
-  groupImage  String?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  id         String   @id @default(cuid())
+  isGroup    Boolean  @default(false)
+  groupName  String?
+  groupImage String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
-  members     ChatMember[]
-  messages    Message[]
+  participants ChatParticipant[]
+  messages     Message[]
 }
 
-model ChatMember {
-  id        String   @id @default(cuid())
+model ChatParticipant {
+  id String @id @default(cuid())
 
-  chatId    String
-  userId    String
+  chatId String
+  userId String
 
-  joinedAt  DateTime @default(now())
-
-  chat      Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
-  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([chatId, userId])
 }
 
 model Message {
-  id         String      @id @default(cuid())
+  id          String      @id @default(cuid())
+  content     String
+  messageType MessageType @default(TEXT)
 
-  chatId     String
-  senderId   String
+  senderId String
+  chatId   String
 
-  type       MessageType @default(TEXT)
+  sender User @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  chat   Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
 
-  content    String?
-  imageUrl   String?
-
-  createdAt  DateTime    @default(now())
-
-  chat        Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
-  sender      User @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }

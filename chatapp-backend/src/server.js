@@ -8,6 +8,8 @@ import morgan from "morgan";
 
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import chatRoutes from "./routes/chat.routes.js";
+import groupRoutes from "./routes/group.routes.js";
 
 import path from "path";
 import { fileURLToPath } from "url";
@@ -56,6 +58,10 @@ app.use(
   "/images",
   express.static(path.join(__dirname, "../public/images"))
 );
+
+app.use("/api/chats", chatRoutes);
+
+app.use("/api/groups", groupRoutes);
 
 
 const PORT = process.env.PORT || 5000;

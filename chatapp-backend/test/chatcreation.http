@@ -1,0 +1,8 @@
+### Create a one-to-one chat
+POST http://localhost:5000/api/chats
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbXMyMGM3bm4wMDAwZXBuczVwZHc2cHYxIiwiaWF0IjoxNzg1MzEyNjY1LCJleHAiOjE3ODU5MTc0NjV9.UdwJOcfKkBpGZezNMimKtNV1-7uNFwdWeMhdT-fQhk0
+Content-Type: application/json
+
+{
+  "userId": "cms3hl20f0000epqks9mx2tcj"
+}
