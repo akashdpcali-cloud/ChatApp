@@ -170,4 +170,54 @@ export const getChats = async (req, res) => {
   }
 };
 
+export const getOneToOneChats = async (req, res) => {
+  try {
+    const chats = await prisma.chat.findMany({
+      where: {
+        isGroup: false,
+        participants: {
+          some: {
+            userId: req.user.id,
+          },
+        },
+      },
+      include: {
+        participants: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                fullName: true,
+                email: true,
+                profilePicture: true,
+              },
+            },
+          },
+        },
+        messages: {
+          orderBy: {
+            createdAt: "desc",
+          },
+          take: 1,
+        },
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
 
+    return res.status(200).json({
+      success: true,
+      data: {
+        chats,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+    });
+  }
+};

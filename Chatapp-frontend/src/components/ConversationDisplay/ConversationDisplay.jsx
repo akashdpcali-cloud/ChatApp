@@ -1,42 +1,67 @@
 import "./ConversationDisplay.css";
 
-function ConversationDisplay({selectedChat, setSelectedChat}) {
-  const conversations = [
-    {
-      id: 1,
-      name: "Cielo D P",
-      type: "Individual",
-      message: "How are you?",
-      time: "14:45",
-      unread: 2,
-      online: true,
-    },
-    {
-      id: 1,
-      name: "Silver",
-      type: "Individual",
-      message: "hey, boy?",
-      time: "16:15",
-      unread: 1,
-      online: true,
-    },
-    {
-      id: 1,
-      name: "Unknoen",
-      type: "Individual",
-      message: "maluuuu!!!",
-      time: "14:45",
-      unread: 0,
-      online: false,
-    },
-  ];
+import { useEffect, useState } from "react";
+import { getAllChats, getOneToOneChats, getGroups } from "../../api/chatApi";
+
+function ConversationDisplay({ selectedChat, setSelectedChat, selectedSection }) {
+
+  const [chats, setChats] = useState([]);
+
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+
+useEffect(() => {
+
+    const fetchChats = async () => {
+
+        try {
+
+            let data;
+
+            if (selectedSection === "home") {
+
+                data = await getAllChats();
+
+            } else if (selectedSection === "chats") {
+
+                data = await getOneToOneChats();
+
+            } else if (selectedSection === "groups") {
+
+                data = await getGroups();
+
+            } else {
+
+                return;
+
+            }
+
+            if (selectedSection === "groups") {
+
+                setChats(data.data.groups);
+
+            } else {
+
+                setChats(data.data.chats);
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+    };
+
+    fetchChats();
+
+}, [selectedSection]);
 
   return (
     <div
-  className={`conversation-display-section ${
-    selectedChat ? "hide-conversations" : ""
-  }`}
->
+      className={`conversation-display-section ${selectedChat ? "hide-conversations" : ""
+        }`}
+    >
       <div className="section-name">Chats</div>
 
       <input
@@ -46,34 +71,78 @@ function ConversationDisplay({selectedChat, setSelectedChat}) {
       />
 
       <div className="conversations">
-        {conversations.map((chat) => (
-          <div className="chat-details" key={chat.id} onClick={() => setSelectedChat(chat)} >
-            <div className="chat-left-section">
-              <img src="/chatapp-default-avatar.jpeg" alt="" className="profile-pic" />
 
-              {chat.online && (
-                <div className="online-indicater"></div>
-              )}
-            </div>
+        {chats.map((chat) => {
 
-            <div className="chat-middle-section">
-              <div className="contact-name">{chat.name}</div>
-              <div className="induvisual-or-group">{chat.type}</div>
-              <div className="latest-message">{chat.message}</div>
-            </div>
+          const otherUser = !chat.isGroup
+            ? chat.participants.find(
+              (participant) => participant.user.id !== currentUser.id
+            )?.user
+            : null;
 
-            <div className="chat-right-section">
-              <div className="latest-message-time">
-                {chat.time}
+          return (
+
+            <div
+              className="chat-details"
+              key={chat.id}
+              onClick={() => setSelectedChat(chat)}
+            >
+
+              <div className="chat-left-section">
+
+                <img
+                  src={
+                    chat.isGroup
+                      ? "/chatapp-default-avatar.jpeg"
+                      : `http://localhost:5000${otherUser?.profilePicture}`
+                  }
+                  alt=""
+                  className="profile-pic"
+                />
+
               </div>
 
-              <div className="unread-number">
-                {chat.unread}
+              <div className="chat-middle-section">
+
+                <div className="contact-name">
+                  {chat.isGroup ? chat.groupName : otherUser?.fullName}
+                </div>
+
+                <div className="induvisual-or-group">
+                  {chat.isGroup ? "Group" : "Individual"}
+                </div>
+
+                <div className="latest-message">
+                  {chat.messages.length > 0
+                    ? chat.messages[chat.messages.length - 1].content
+                    : "No messages yet"}
+                </div>
+
               </div>
+
+              <div className="chat-right-section">
+
+                <div className="latest-message-time">
+                  {new Date(chat.updatedAt).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </div>
+
+                <div className="unread-number">
+                  0
+                </div>
+
+              </div>
+
             </div>
-          </div>
-        ))}
+
+          );
+
+        })}
+
       </div>
+
     </div>
   );
 }

@@ -10,7 +10,7 @@ import "./Landing.css";
 export function Landing() {
 
   const [selectedChat, setSelectedChat] = useState(null);
-  const [selectedSection, setSelectedSection] = useState("chat");
+  const [selectedSection, setSelectedSection] = useState("home");
 
   return (
     <>
@@ -26,16 +26,18 @@ export function Landing() {
         <div className="landing-content">
 
 
-          {selectedSection === "chat" && (
+          {(selectedSection === "home" || selectedSection === "chats" || selectedSection === "groups") && (
             <>
               <ConversationDisplay
                 selectedChat={selectedChat}
                 setSelectedChat={setSelectedChat}
+                selectedSection={selectedSection}
               />
 
               <MessageDisplay
                 selectedChat={selectedChat}
                 setSelectedChat={setSelectedChat}
+                
               />
             </>
           )}
