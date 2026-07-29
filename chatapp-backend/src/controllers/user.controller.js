@@ -111,3 +111,81 @@ export const changeProfilePicture = async (req, res) => {
     });
   }
 };
+
+
+
+export const searchUser = async (req, res) => {
+  try {
+    const { query } = req.query;
+
+    if (!query || !query.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Search query is required.",
+      });
+    }
+
+    const user = await prisma.user.findMany({
+  where: {
+  NOT: {
+    id: req.user.id,
+  },
+  OR: [
+    {
+      email: {
+        contains: query.trim().toLowerCase(),
+        mode: "insensitive",
+      },
+    },
+    {
+      fullName: {
+        contains: query.trim(),
+        mode: "insensitive",
+      },
+    },
+  ],
+},
+  select: {
+    id: true,
+    fullName: true,
+    email: true,
+    profilePicture: true,
+  },
+});
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    if (user.length === 0) {
+  return res.status(404).json({
+    success: false,
+    message: "User not found.",
+  });
+}
+
+    if (user.id === req.user.id) {
+      return res.status(400).json({
+        success: false,
+        message: "You cannot search for yourself.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        user,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+    });
+  }
+};
