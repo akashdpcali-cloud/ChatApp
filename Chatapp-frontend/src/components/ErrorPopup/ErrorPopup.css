@@ -1,0 +1,108 @@
+.error-popup-overlay {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    z-index: 9999;
+}
+
+.error-popup {
+    width: 380px;
+
+    padding: 30px 25px;
+
+    background: white;
+
+    border-radius: 16px;
+
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+
+    animation: popupAnimation .2s ease;
+}
+
+.error-message {
+    width: 100%;
+
+    text-align: center;
+
+    font-size: 1.05rem;
+    font-weight: 500;
+
+    color: #222;
+
+    line-height: 1.5;
+
+    word-break: break-word;
+}
+
+.error-okay-button {
+    width: 140px;
+    height: 46px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: rgb(0, 130, 216);
+
+    color: white;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: background .2s;
+}
+
+.error-okay-button:hover {
+    background: rgb(0, 110, 190);
+}
+
+@keyframes popupAnimation {
+
+    from {
+        opacity: 0;
+        transform: scale(.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .error-popup {
+        width: 90%;
+
+        padding: 25px 20px;
+
+        box-sizing: border-box;
+    }
+
+    .error-message {
+        font-size: 1rem;
+    }
+
+    .error-okay-button {
+        width: 100%;
+    }
+
+}
