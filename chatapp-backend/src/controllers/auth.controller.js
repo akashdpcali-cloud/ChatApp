@@ -80,10 +80,7 @@ export const login = async (req, res) => {
       });
     }
 
-    const isPasswordCorrect = await bcrypt.compare(
-      password,
-      user.password
-    );
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
       return res.status(401).json({
@@ -128,16 +125,16 @@ export const logout = async (req, res) => {
 // GET /api/auth/me
 export const getMe = async (req, res) => {
   res.status(200).json({
-  success: true,
-  data: {
-    user: {
-      id: req.user.id,
-      fullName: req.user.fullName,
-      email: req.user.email,
-      profilePicture: req.user.profilePicture,
+    success: true,
+    data: {
+      user: {
+        id: req.user.id,
+        fullName: req.user.fullName,
+        email: req.user.email,
+        profilePicture: req.user.profilePicture,
+      },
     },
-  },
-});
+  });
 };
 
 // reset-passeord
@@ -161,7 +158,7 @@ export const changePassword = async (req, res) => {
 
     const isPasswordCorrect = await bcrypt.compare(
       currentPassword,
-      user.password
+      user.password,
     );
 
     if (!isPasswordCorrect) {
@@ -193,7 +190,6 @@ export const changePassword = async (req, res) => {
       success: true,
       message: "Password changed successfully.",
     });
-
   } catch (error) {
     console.error(error);
 
@@ -208,10 +204,48 @@ export const changePassword = async (req, res) => {
 
 export const deleteAccount = async (req, res) => {
   try {
-    await prisma.user.delete({
-      where: {
-        id: req.user.id,
-      },
+    const userId = req.user.id;
+
+    await prisma.$transaction(async (tx) => {
+      // Delete all one-to-one chats the user belongs to
+      await tx.chat.deleteMany({
+        where: {
+          isGroup: false,
+          participants: {
+            some: {
+              userId,
+            },
+          },
+        },
+      });
+
+      // Delete all groups created by the user
+      await tx.chat.deleteMany({
+        where: {
+          isGroup: true,
+          creatorId: userId,
+        },
+      });
+
+      // Remove the user from groups created by others
+      await tx.chatParticipant.deleteMany({
+        where: {
+          userId,
+          chat: {
+            isGroup: true,
+            NOT: {
+              creatorId: userId,
+            },
+          },
+        },
+      });
+
+      // Delete the user's account
+      await tx.user.delete({
+        where: {
+          id: userId,
+        },
+      });
     });
 
     return res.status(200).json({

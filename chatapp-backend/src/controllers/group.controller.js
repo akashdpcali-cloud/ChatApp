@@ -47,6 +47,8 @@ export const createGroup = async (req, res) => {
       data: {
         isGroup: true,
         groupName: groupName.trim(),
+        creatorId: req.user.id, // ← Add this line
+
         participants: {
           create: uniqueMemberIds.map((id) => ({
             userId: id,
@@ -85,10 +87,6 @@ export const createGroup = async (req, res) => {
     });
   }
 };
-
-
-
-
 
 export const getGroups = async (req, res) => {
   try {
@@ -130,6 +128,50 @@ export const getGroups = async (req, res) => {
       data: {
         groups,
       },
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+    });
+  }
+};
+
+export const deleteGroup = async (req, res) => {
+  try {
+    const { groupId } = req.params;
+
+    const group = await prisma.chat.findUnique({
+      where: {
+        id: groupId,
+      },
+    });
+
+    if (!group || !group.isGroup) {
+      return res.status(404).json({
+        success: false,
+        message: "Group not found.",
+      });
+    }
+
+    if (group.creatorId !== req.user.id) {
+      return res.status(403).json({
+        success: false,
+        message: "Only the group creator can delete this group.",
+      });
+    }
+
+    await prisma.chat.delete({
+      where: {
+        id: groupId,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Group deleted successfully.",
     });
   } catch (error) {
     console.error(error);
