@@ -1,4 +1,5 @@
 import prisma from "../lib/prisma.js";
+import { getIO } from "../socket/socket.js";
 
 export const createChat = async (req, res) => {
   try {
@@ -117,8 +118,6 @@ export const createChat = async (req, res) => {
   }
 };
 
-
-
 export const getChats = async (req, res) => {
   try {
     const chats = await prisma.chat.findMany({
@@ -210,6 +209,145 @@ export const getOneToOneChats = async (req, res) => {
       success: true,
       data: {
         chats,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+    });
+  }
+};
+
+export const getChatMessages = async (req, res) => {
+  try {
+    const { chatId } = req.params;
+
+    // Check whether the logged-in user belongs to this chat
+    const chat = await prisma.chat.findFirst({
+      where: {
+        id: chatId,
+        participants: {
+          some: {
+            userId: req.user.id,
+          },
+        },
+      },
+    });
+
+    if (!chat) {
+      return res.status(404).json({
+        success: false,
+        message: "Chat not found.",
+      });
+    }
+
+    const messages = await prisma.message.findMany({
+      where: {
+        chatId,
+      },
+      include: {
+        sender: {
+          select: {
+            id: true,
+            fullName: true,
+            email: true,
+            profilePicture: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        messages,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+    });
+  }
+};
+
+export const sendMessage = async (req, res) => {
+  try {
+    const { chatId } = req.params;
+    const { content } = req.body;
+
+    if (!content || !content.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Message content is required.",
+      });
+    }
+
+    // Verify the chat exists and the user belongs to it
+    const chat = await prisma.chat.findFirst({
+      where: {
+        id: chatId,
+        participants: {
+          some: {
+            userId: req.user.id,
+          },
+        },
+      },
+    });
+
+    if (!chat) {
+      return res.status(404).json({
+        success: false,
+        message: "Chat not found.",
+      });
+    }
+
+    const message = await prisma.message.create({
+      data: {
+        content: content.trim(),
+        senderId: req.user.id,
+        chatId,
+      },
+      include: {
+        sender: {
+          select: {
+            id: true,
+            fullName: true,
+            email: true,
+            profilePicture: true,
+          },
+        },
+      },
+    });
+
+    const io = getIO();
+
+    io.to(chatId).emit("receive-message", message);
+    console.log("Message emitted:", message.id);
+
+    // Move this chat to the top of the conversation list
+    await prisma.chat.update({
+      where: {
+        id: chatId,
+      },
+      data: {
+        updatedAt: new Date(),
+      },
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Message sent successfully.",
+      data: {
+        message,
       },
     });
   } catch (error) {

@@ -111,3 +111,38 @@ export const createGroup = async (groupName, memberIds) => {
     return response.data;
 
 };
+
+export const getChatMessages = async (chatId) => {
+
+    const token = localStorage.getItem("token");
+
+    const response = await axios.get(
+        `http://localhost:5000/api/chats/${chatId}/messages`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
+    return response.data;
+
+};
+
+export const sendMessage = async (chatId, content) => {
+
+    const token = localStorage.getItem("token");
+
+    const response = await axios.post(
+        `http://localhost:5000/api/chats/${chatId}/messages`,
+        { content },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
+    return response.data;
+
+};

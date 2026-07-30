@@ -83,7 +83,7 @@
 
 .my-message,
 .contact-message {
-  max-width: 60%;
+  width: 100%;
 
   padding: 10px 14px;
 
@@ -100,6 +100,7 @@
   background: rgb(34, 167, 255);
   color: white;
   border-radius: 18px 4px 18px 18px;
+  padding: 13px;
 }
 
 .left-message {
@@ -107,6 +108,7 @@
   color: white;
   background: rgb(34, 167, 255);
   border-radius: 4px 18px 18px 18px;
+  padding: 13px;
 }
 
 .message {
@@ -168,6 +170,7 @@
 .send-button:hover {
   background: black;
 }
+
 .back-button {
   display: none;
 }
@@ -192,7 +195,7 @@
   border: 1px solid #e5e5e5;
   border-radius: 10px;
 
-  box-shadow: 0 8px 20px rgba(0,0,0,.12);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 
   overflow: hidden;
 
@@ -204,7 +207,7 @@
 
   cursor: pointer;
 
-  transition: background .2s;
+  transition: background 0.2s;
 }
 
 .message-option:hover {
@@ -219,8 +222,25 @@
   background: #fef2f2;
 }
 
-@media (max-width:768px) {
+.sender-name {
+  color: yellow;
+}
 
+.message-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+
+  margin-top: 2px;
+}
+
+.message-status {
+  font-size: 14px;
+  color: rgb(255, 0, 0);
+}
+
+@media (max-width: 768px) {
   .back-button {
     display: block;
 
@@ -231,5 +251,4 @@
 
     cursor: pointer;
   }
-
 }

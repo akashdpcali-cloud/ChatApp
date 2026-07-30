@@ -1,10 +1,6 @@
 import { useState } from "react";
-import {
-  User,
-  Lock,
-  Eye,
-  EyeOff
-} from "lucide-react";
+import { User, Lock, Eye, EyeOff } from "lucide-react";
+import { socket } from "../../socket/socket";
 
 import "./Login.css";
 
@@ -15,11 +11,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 import ErrorPopup from "../../components/ErrorPopup/ErrorPopup";
 
-
 function Login() {
-
   const [errorMessage, setErrorMessage] = useState("");
-
 
   const setUser = useAuthStore((state) => state.setUser);
 
@@ -31,45 +24,26 @@ function Login() {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-
     try {
-
       const data = await loginUser({
         email,
-        password
+        password,
       });
 
-
       if (data.success) {
+        localStorage.setItem("token", data.data.token);
 
-        localStorage.setItem(
-          "token",
-          data.data.token
-        );
-
-
-        localStorage.setItem(
-          "user",
-          JSON.stringify(data.data.user)
-        );
+        localStorage.setItem("user", JSON.stringify(data.data.user));
 
         setUser(data.data.user);
 
-
+        socket.connect();
 
         navigate("/");
-
       }
-
-
     } catch (error) {
-
-      setErrorMessage(
-        error.response?.data?.message || "Something went wrong."
-      );
-
+      setErrorMessage(error.response?.data?.message || "Something went wrong.");
     }
-
   };
 
   return (
@@ -77,13 +51,9 @@ function Login() {
       <div className="login-app-title">Chat App</div>
 
       <div className="login-box">
-
-        <div className="login-title">
-          LOGIN
-        </div>
+        <div className="login-title">LOGIN</div>
 
         <div className="mail-box">
-
           <User className="user-avater" />
 
           <input
@@ -93,11 +63,9 @@ function Login() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-
         </div>
 
         <div className="password-box">
-
           <Lock className="password-icon" />
 
           <input
@@ -119,56 +87,33 @@ function Login() {
               onClick={() => setShowPassword(true)}
             />
           )}
-
         </div>
 
-        <button
-          className="login-button"
-          onClick={handleLogin}
-        >
+        <button className="login-button" onClick={handleLogin}>
           LOGIN
         </button>
 
-        <Link
-          to="/forgot-password"
-          className="forgot-password"
-        >
+        <Link to="/forgot-password" className="forgot-password">
           Forgot Password?
         </Link>
 
-        <div className="seperation-line">
-          Or login with
-        </div>
+        <div className="seperation-line">Or login with</div>
 
         <div className="login-with-google-div">
-
-          <img
-            src="/google-icon.svg"
-            alt=""
-            className="google-icon"
-          />
-
+          <img src="/google-icon.svg" alt="" className="google-icon" />
         </div>
 
         <div className="signup-message">
-
           Don't have an account?
-
           <Link to="/signup" className="signup-link">
             Sign up
           </Link>
-
         </div>
-
       </div>
 
-      <ErrorPopup
-        message={errorMessage}
-        onClose={() => setErrorMessage("")}
-      />
-
+      <ErrorPopup message={errorMessage} onClose={() => setErrorMessage("")} />
     </>
-  )
+  );
 }
 
 export default Login;

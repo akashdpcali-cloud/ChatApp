@@ -1,0 +1,8 @@
+### Send Message
+POST http://localhost:5000/api/chats/cms66bjo70004ep2g480vw78z/messages
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbXM1czVuYWQwMDAyZXBkODN3bm9oMXFxIiwiaWF0IjoxNzg1Mzk4NTU0LCJleHAiOjE3ODYwMDMzNTR9.RwGsrbJ7qnxuX3Hu9zkV4gAHIN4rPzHNtmQ0YuzxArs
+Content-Type: application/json
+
+{
+  "content": "hello, fellows blea bela bela this is just a test message!!!"
+}
