@@ -3,93 +3,68 @@ import "./ConversationDisplay.css";
 import { useEffect, useState } from "react";
 import { getAllChats, getOneToOneChats, getGroups } from "../../api/chatApi";
 
-function ConversationDisplay({ selectedChat, setSelectedChat, selectedSection }) {
-
+function ConversationDisplay({
+  selectedChat,
+  setSelectedChat,
+  selectedSection,
+}) {
   const [chats, setChats] = useState([]);
 
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-
     const fetchChats = async () => {
-
       try {
-
         let data;
 
         if (selectedSection === "home") {
-
           data = await getAllChats();
-
         } else if (selectedSection === "chats") {
-
           data = await getOneToOneChats();
-
         } else if (selectedSection === "groups") {
-
           data = await getGroups();
-
         } else {
-
           return;
-
         }
 
         if (selectedSection === "groups") {
-
           setChats(data.data.groups);
-
         } else {
-
           setChats(data.data.chats);
-
         }
-
       } catch (error) {
-
         console.error(error);
-
       }
-
     };
 
     fetchChats();
-
   }, [selectedSection]);
 
   return (
     <div
-      className={`conversation-display-section ${selectedChat ? "hide-conversations" : ""
-        }`}
+      className={`conversation-display-section ${
+        selectedChat ? "hide-conversations" : ""
+      }`}
     >
       <div className="section-name">Chats</div>
 
-      <input
-        type="text"
-        className="search-bar"
-        placeholder="Search..."
-      />
+      <input type="text" className="search-bar" placeholder="Search..." />
 
       <div className="conversations">
-
         {chats.map((chat) => {
-
           const otherUser = !chat.isGroup
             ? chat.participants.find(
-              (participant) => participant.user.id !== currentUser.id
-            )?.user
+                (participant) => participant.user.id !== currentUser.id,
+              )?.user
             : null;
 
           return (
-
             <div
               className="chat-details"
               key={chat.id}
               onClick={() => setSelectedChat(chat)}
             >
-
               <div className="chat-left-section">
-
                 <img
                   src={
                     chat.isGroup
@@ -99,11 +74,9 @@ function ConversationDisplay({ selectedChat, setSelectedChat, selectedSection })
                   alt=""
                   className="profile-pic"
                 />
-
               </div>
 
               <div className="chat-middle-section">
-
                 <div className="contact-name">
                   {chat.isGroup ? chat.groupName : otherUser?.fullName}
                 </div>
@@ -117,11 +90,9 @@ function ConversationDisplay({ selectedChat, setSelectedChat, selectedSection })
                     ? chat.messages[chat.messages.length - 1].content
                     : "No messages yet"}
                 </div>
-
               </div>
 
               <div className="chat-right-section">
-
                 <div className="latest-message-time">
                   {new Date(chat.updatedAt).toLocaleTimeString([], {
                     hour: "2-digit",
@@ -129,20 +100,12 @@ function ConversationDisplay({ selectedChat, setSelectedChat, selectedSection })
                   })}
                 </div>
 
-                <div className="unread-number">
-                  0
-                </div>
-
+                <div className="unread-number">0</div>
               </div>
-
             </div>
-
           );
-
         })}
-
       </div>
-
     </div>
   );
 }

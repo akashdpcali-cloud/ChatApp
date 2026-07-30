@@ -25,6 +25,23 @@ export const initializeSocket = (server) => {
       console.log(`${socket.id} left chat ${chatId}`);
     });
 
+    // User started typing
+    socket.on("typing", ({ chatId, userId, fullName }) => {
+      socket.to(chatId).emit("user-typing", {
+        chatId,
+        userId,
+        fullName,
+      });
+    });
+
+    // User stopped typing
+    socket.on("stop-typing", ({ chatId, userId }) => {
+      socket.to(chatId).emit("user-stop-typing", {
+        chatId,
+        userId,
+      });
+    });
+
     socket.on("disconnect", () => {
       console.log(`User disconnected: ${socket.id}`);
     });

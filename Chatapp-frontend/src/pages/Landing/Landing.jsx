@@ -9,18 +9,20 @@ import { useState } from "react";
 import "./Landing.css";
 
 export function Landing() {
-
   const [errorMessage, setErrorMessage] = useState("");
-
 
   const [selectedChat, setSelectedChat] = useState(null);
   const [selectedSection, setSelectedSection] = useState("home");
 
+  const [typingChats, setTypingChats] = useState({});
+
   return (
     <>
-      <Header selectedChat={selectedChat} setSelectedSection={setSelectedSection} />
+      <Header
+        selectedChat={selectedChat}
+        setSelectedSection={setSelectedSection}
+      />
       <div className="landing-container">
-
         <Menu
           selectedChat={selectedChat}
           selectedSection={selectedSection}
@@ -28,9 +30,9 @@ export function Landing() {
         />
 
         <div className="landing-content">
-
-
-          {(selectedSection === "home" || selectedSection === "chats" || selectedSection === "groups") && (
+          {(selectedSection === "home" ||
+            selectedSection === "chats" ||
+            selectedSection === "groups") && (
             <>
               <ConversationDisplay
                 selectedChat={selectedChat}
@@ -41,7 +43,8 @@ export function Landing() {
               <MessageDisplay
                 selectedChat={selectedChat}
                 setSelectedChat={setSelectedChat}
-
+                typingChats={typingChats}
+                setTypingChats={setTypingChats}
               />
             </>
           )}
@@ -57,17 +60,10 @@ export function Landing() {
               setErrorMessage={setErrorMessage}
             />
           )}
-
         </div>
-
       </div>
 
-      <ErrorPopup
-        message={errorMessage}
-        onClose={() => setErrorMessage("")}
-      />
-
+      <ErrorPopup message={errorMessage} onClose={() => setErrorMessage("")} />
     </>
-
-  )
+  );
 }

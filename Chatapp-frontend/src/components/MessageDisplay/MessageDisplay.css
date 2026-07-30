@@ -42,7 +42,8 @@
 
 .active-or-offline-detail {
   font-size: 0.8rem;
-  color: #666;
+  color: rgb(0, 255, 72);
+  font-weight: 900;
 }
 
 .three-dot {

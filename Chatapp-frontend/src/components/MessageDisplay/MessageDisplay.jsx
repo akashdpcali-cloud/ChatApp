@@ -44,7 +44,12 @@ function groupMessagesByDate(messages) {
   return grouped;
 }
 
-function MessageDisplay({ selectedChat, setSelectedChat }) {
+function MessageDisplay({
+  selectedChat,
+  setSelectedChat,
+  setTypingChats,
+  typingChats,
+}) {
   const user = JSON.parse(localStorage.getItem("user"));
 
   const messagesEndRef = useRef(null);
@@ -52,6 +57,8 @@ function MessageDisplay({ selectedChat, setSelectedChat }) {
   const [messageInput, setMessageInput] = useState("");
 
   const [messages, setMessages] = useState([]);
+
+  const typingTimeout = useRef(null);
 
   const previousChat = useRef(null);
 
@@ -164,6 +171,11 @@ function MessageDisplay({ selectedChat, setSelectedChat }) {
   const handleSendMessage = async () => {
     if (!messageInput.trim()) return;
 
+    socket.emit("stop-typing", {
+      chatId: selectedChat.id,
+      userId: user.id,
+    });
+
     try {
       await sendMessage(selectedChat.id, messageInput);
 
@@ -177,21 +189,37 @@ function MessageDisplay({ selectedChat, setSelectedChat }) {
     console.log("Socket listener registered");
 
     const handleReceiveMessage = (message) => {
-      // Ignore messages that I sent
       if (message.senderId !== user.id) {
         const audio = new Audio(boneSound);
         audio.play().catch(console.error);
-        setMessages((prev) => [...prev, message]);
-        return;
       }
 
       setMessages((prev) => [...prev, message]);
     };
 
+    const handleUserTyping = (data) => {
+      setTypingChats((prev) => ({
+        ...prev,
+        [data.chatId]: data.fullName,
+      }));
+    };
+
+    const handleUserStopTyping = (data) => {
+      setTypingChats((prev) => {
+        const updated = { ...prev };
+        delete updated[data.chatId];
+        return updated;
+      });
+    };
+
     socket.on("receive-message", handleReceiveMessage);
+    socket.on("user-typing", handleUserTyping);
+    socket.on("user-stop-typing", handleUserStopTyping);
 
     return () => {
       socket.off("receive-message", handleReceiveMessage);
+      socket.off("user-typing", handleUserTyping);
+      socket.off("user-stop-typing", handleUserStopTyping);
     };
   }, []);
 
@@ -239,7 +267,11 @@ function MessageDisplay({ selectedChat, setSelectedChat }) {
             </div>
 
             <div className="active-or-offline-detail">
-              {selectedChat?.isGroup ? "Group" : "Active now"}
+              {typingChats[selectedChat?.id]
+                ? `${typingChats[selectedChat.id]}  typing...`
+                : selectedChat?.isGroup
+                  ? "Group"
+                  : "Active now"}
             </div>
           </div>
         </div>
@@ -315,7 +347,24 @@ function MessageDisplay({ selectedChat, setSelectedChat }) {
           className="text-type"
           placeholder="Type a message..."
           value={messageInput}
-          onChange={(e) => setMessageInput(e.target.value)}
+          onChange={(e) => {
+            setMessageInput(e.target.value);
+
+            socket.emit("typing", {
+              chatId: selectedChat.id,
+              userId: user.id,
+              fullName: user.fullName,
+            });
+
+            clearTimeout(typingTimeout.current);
+
+            typingTimeout.current = setTimeout(() => {
+              socket.emit("stop-typing", {
+                chatId: selectedChat.id,
+                userId: user.id,
+              });
+            }, 1000);
+          }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               handleSendMessage();
