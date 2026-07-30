@@ -195,6 +195,10 @@ function MessageDisplay({ selectedChat, setSelectedChat }) {
     };
   }, []);
 
+  const otherParticipant = selectedChat?.participants?.find(
+    (participant) => participant.user.id !== user.id,
+  );
+
   return (
     <div
       className={`message-display-section ${
@@ -212,14 +216,31 @@ function MessageDisplay({ selectedChat, setSelectedChat }) {
           />
 
           <img
-            src="/chatapp-default-avatar.jpeg"
+            src={
+              selectedChat?.isGroup
+                ? `http://localhost:5000${
+                    selectedChat.groupImage ||
+                    "/images/chatapp-default-group.jpeg"
+                  }`
+                : `http://localhost:5000${
+                    otherParticipant?.user.profilePicture ||
+                    "/images/chatapp-default-avatar.jpeg"
+                  }`
+            }
             alt=""
             className="profile-pic"
           />
 
           <div>
-            <div className="messager-name">Cielo D P</div>
-            <div className="active-or-offline-detail">Active now</div>
+            <div className="messager-name">
+              {selectedChat?.isGroup
+                ? selectedChat.groupName
+                : otherParticipant?.user.fullName}
+            </div>
+
+            <div className="active-or-offline-detail">
+              {selectedChat?.isGroup ? "Group" : "Active now"}
+            </div>
           </div>
         </div>
 
