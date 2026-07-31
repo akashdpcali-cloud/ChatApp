@@ -1,0 +1,3 @@
+### Delete one-to-one chat
+DELETE http://localhost:5000/api/chats/cms7k8eel000lept4kq611za1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbXMyMGM3bm4wMDAwZXBuczVwZHc2cHYxIiwiaWF0IjoxNzg1NTA2MzE2LCJleHAiOjE3ODYxMTExMTZ9.d60C-AWgMeD8yH7eTjLtNsBKyH35bxCfF0qD7zKTVcE

@@ -6,6 +6,7 @@ import {
   getOneToOneChats,
   getChatMessages,
   sendMessage,
+  deleteChat,
 } from "../controllers/chat.controller.js";
 
 const router = express.Router();
@@ -13,6 +14,8 @@ const router = express.Router();
 router.post("/", protect, createChat);
 
 router.get("/", protect, getChats);
+
+router.delete("/:chatId", protect, deleteChat);
 
 router.get("/one-to-one-chat", protect, getOneToOneChats);
 

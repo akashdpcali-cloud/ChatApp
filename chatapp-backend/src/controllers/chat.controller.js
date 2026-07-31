@@ -378,3 +378,61 @@ export const sendMessage = async (req, res) => {
     });
   }
 };
+
+export const deleteChat = async (req, res) => {
+  try {
+    const { chatId } = req.params;
+
+    const chat = await prisma.chat.findUnique({
+      where: {
+        id: chatId,
+      },
+      include: {
+        participants: true,
+      },
+    });
+
+    if (!chat) {
+      return res.status(404).json({
+        success: false,
+        message: "Chat not found.",
+      });
+    }
+
+    if (chat.isGroup) {
+      return res.status(400).json({
+        success: false,
+        message: "Use the group delete endpoint for groups.",
+      });
+    }
+
+    const isParticipant = chat.participants.some(
+      (participant) => participant.userId === req.user.id,
+    );
+
+    if (!isParticipant) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not a participant of this chat.",
+      });
+    }
+
+    await prisma.chat.delete({
+      where: {
+        id: chatId,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Chat deleted successfully.",
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+    });
+  }
+};
