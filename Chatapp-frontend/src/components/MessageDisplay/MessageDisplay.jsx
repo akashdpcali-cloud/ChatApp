@@ -83,6 +83,11 @@ function MessageDisplay({
 
         setMessages(data.data.messages);
 
+        socket.emit("mark-read", {
+          chatId: selectedChat.id,
+          userId: user.id,
+        });
+
         socket.emit("join-chat", selectedChat.id);
 
         previousChat.current = selectedChat.id;
@@ -195,9 +200,22 @@ function MessageDisplay({
       }
 
       setMessages((prev) => [...prev, message]);
+
+      if (selectedChat?.id === message.chatId && message.senderId !== user.id) {
+        console.log("📤 Emitting mark-read", message.id);
+
+        socket.emit("mark-read", {
+          chatId: message.chatId,
+          userId: user.id,
+        });
+      }
     };
 
     const handleUserTyping = (data) => {
+      console.log("Typing event:", data);
+
+      if (data.userId === user.id) return;
+
       setTypingChats((prev) => ({
         ...prev,
         [data.chatId]: data.fullName,
@@ -212,16 +230,30 @@ function MessageDisplay({
       });
     };
 
+    const handleMessagesRead = ({ chatId }) => {
+      if (chatId !== selectedChat?.id) return;
+
+      setMessages((prev) =>
+        prev.map((message) =>
+          message.senderId === user.id
+            ? { ...message, status: "READ" }
+            : message,
+        ),
+      );
+    };
+
+    socket.on("messages-read", handleMessagesRead);
     socket.on("receive-message", handleReceiveMessage);
     socket.on("user-typing", handleUserTyping);
     socket.on("user-stop-typing", handleUserStopTyping);
 
     return () => {
+      socket.off("messages-read", handleMessagesRead);
       socket.off("receive-message", handleReceiveMessage);
       socket.off("user-typing", handleUserTyping);
       socket.off("user-stop-typing", handleUserStopTyping);
     };
-  }, []);
+  }, [selectedChat, user]);
 
   const otherParticipant = selectedChat?.participants?.find(
     (participant) => participant.user.id !== user.id,
@@ -267,8 +299,9 @@ function MessageDisplay({
             </div>
 
             <div className="active-or-offline-detail">
-              {typingChats[selectedChat?.id]
-                ? `${typingChats[selectedChat.id]}  typing...`
+              {typingChats[selectedChat?.id] &&
+              typingChats[selectedChat.id] !== user.fullName
+                ? `typing...`
                 : selectedChat?.isGroup
                   ? "Group"
                   : "Active now"}
@@ -330,7 +363,9 @@ function MessageDisplay({
                     </div>
 
                     {message.senderId === user.id && (
-                      <div className="message-status">Sent</div>
+                      <div className="message-status">
+                        {message.status || "SENT"}
+                      </div>
                     )}
                   </div>
                 </div>
@@ -349,6 +384,12 @@ function MessageDisplay({
           value={messageInput}
           onChange={(e) => {
             setMessageInput(e.target.value);
+
+            console.log("Emitting typing:", {
+              chatId: selectedChat.id,
+              userId: user.id,
+              fullName: user.fullName,
+            });
 
             socket.emit("typing", {
               chatId: selectedChat.id,

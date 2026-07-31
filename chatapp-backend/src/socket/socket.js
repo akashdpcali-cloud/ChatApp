@@ -1,4 +1,5 @@
 import { Server } from "socket.io";
+import prisma from "../lib/prisma.js";
 
 let io;
 
@@ -40,6 +41,34 @@ export const initializeSocket = (server) => {
         chatId,
         userId,
       });
+    });
+
+    // Mark messages as read
+    socket.on("mark-read", async ({ chatId, userId }) => {
+      try {
+        console.log("📥 mark-read received", { chatId, userId });
+
+        const result = await prisma.message.updateMany({
+          where: {
+            chatId,
+            senderId: {
+              not: userId,
+            },
+            status: "SENT",
+          },
+          data: {
+            status: "READ",
+          },
+        });
+
+        console.log("✅ Updated messages:", result.count);
+
+        io.to(chatId).emit("messages-read", {
+          chatId,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     });
 
     socket.on("disconnect", () => {

@@ -65,8 +65,16 @@ model Message {
   senderId String
   chatId   String
 
+  status     MessageStatus @default(SENT)
+
   sender User @relation(fields: [senderId], references: [id], onDelete: Cascade)
   chat   Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
+}
+
+
+enum MessageStatus {
+  SENT
+  READ
 }

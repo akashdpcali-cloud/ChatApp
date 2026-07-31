@@ -1,6 +1,6 @@
 ### Send Message
-POST http://localhost:5000/api/chats/cms66bjo70004ep2g480vw78z/messages
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbXM1czVuYWQwMDAyZXBkODN3bm9oMXFxIiwiaWF0IjoxNzg1Mzk4NTU0LCJleHAiOjE3ODYwMDMzNTR9.RwGsrbJ7qnxuX3Hu9zkV4gAHIN4rPzHNtmQ0YuzxArs
+POST http://localhost:5000/api/chats/cms7k5pdr0008ept4nexl5o65/messages
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbXMyMGM3bm4wMDAwZXBuczVwZHc2cHYxIiwiaWF0IjoxNzg1NDg2MDA4LCJleHAiOjE3ODYwOTA4MDh9.54JFO2aP5Ey7TaYJvfWev3Vtxdmej0yfq230UaVWikw
 Content-Type: application/json
 
 {
