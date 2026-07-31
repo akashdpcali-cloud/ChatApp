@@ -45,6 +45,7 @@ export function Landing() {
                 setSelectedChat={setSelectedChat}
                 typingChats={typingChats}
                 setTypingChats={setTypingChats}
+                setErrorMessage={setErrorMessage}
               />
             </>
           )}

@@ -166,3 +166,48 @@ export const unblockChat = async (chatId) => {
 
   return response.data;
 };
+
+export const clearChat = async (chatId) => {
+  const token = localStorage.getItem("token");
+
+  const response = await axios.delete(
+    `http://localhost:5000/api/chats/${chatId}/clear-chat`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return response.data;
+};
+
+export const deleteChat = async (chatId) => {
+  const token = localStorage.getItem("token");
+
+  const response = await axios.delete(
+    `http://localhost:5000/api/chats/${chatId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return response.data;
+};
+
+export const deleteGroup = async (chatId) => {
+  const token = localStorage.getItem("token");
+
+  const response = await axios.delete(
+    `http://localhost:5000/api/groups/${chatId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return response.data;
+};

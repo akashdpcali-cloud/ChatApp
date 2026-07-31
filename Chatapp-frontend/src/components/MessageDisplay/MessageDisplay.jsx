@@ -1,7 +1,14 @@
 import "./MessageDisplay.css";
 import { EllipsisVertical, SendHorizontal, ArrowLeft } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-import { getChatMessages, sendMessage, blockChat } from "../../api/chatApi";
+import {
+  getChatMessages,
+  sendMessage,
+  blockChat,
+  clearChat,
+  deleteChat,
+  deleteGroup,
+} from "../../api/chatApi";
 import { socket } from "../../socket/socket";
 import boneSound from "../../assets/bone-crack.mp3";
 
@@ -49,6 +56,7 @@ function MessageDisplay({
   setSelectedChat,
   setTypingChats,
   typingChats,
+  setErrorMessage,
 }) {
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -317,7 +325,21 @@ function MessageDisplay({
 
           {showMenu && (
             <div className="message-options">
-              <div className="message-option">Clear Chat</div>
+              <div
+                className="message-option"
+                onClick={async () => {
+                  try {
+                    await clearChat(selectedChat.id);
+
+                    setMessages([]);
+                    setShowMenu(false);
+                  } catch (error) {
+                    console.error(error);
+                  }
+                }}
+              >
+                Clear Chat
+              </div>
 
               <div
                 className="message-option"
@@ -335,7 +357,29 @@ function MessageDisplay({
                 Block
               </div>
 
-              <div className="message-option delete-option">Delete</div>
+              <div
+                className="message-option delete-option"
+                onClick={async () => {
+                  try {
+                    if (selectedChat.isGroup) {
+                      await deleteGroup(selectedChat.id);
+                    } else {
+                      await deleteChat(selectedChat.id);
+                    }
+
+                    setShowMenu(false);
+                    setSelectedChat(null);
+                  } catch (error) {
+                    console.error(error);
+
+                    setErrorMessage(
+                      error.response?.data?.message || "Something went wrong.",
+                    );
+                  }
+                }}
+              >
+                Delete
+              </div>
             </div>
           )}
         </div>

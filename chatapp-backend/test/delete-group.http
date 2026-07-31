@@ -1,2 +1,2 @@
-DELETE http://localhost:5000/api/groups/cms7k8eel000lept4kq611za1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbXM3ajRtdXIwMDAxZXB0NHNxbzVlaDUxIiwiaWF0IjoxNzg1NDE4ODUzLCJleHAiOjE3ODYwMjM2NTN9.bCN22wo8aQENaEbwOO9GFMnww6eTwmA22yUZn4f2s3Y
+DELETE http://localhost:5000/api/groups/ChatIdhere
+Authorization: Bearer JWT-token

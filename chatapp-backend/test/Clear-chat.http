@@ -1,3 +1,3 @@
 ### Clear chat
-DELETE http://localhost:5000/api/chats/cms7k8eel000lept4kq611za1/clear-chat
+DELETE http://localhost:5000/api/chats/ChatIdhere/clear-chat
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbXMyMGM3bm4wMDAwZXBuczVwZHc2cHYxIiwiaWF0IjoxNzg1NTA4MjQ5LCJleHAiOjE3ODYxMTMwNDl9.av6X0qMciz5ogspoW4UPKxgdZz-BMxH9kOjq8SO7yyE
