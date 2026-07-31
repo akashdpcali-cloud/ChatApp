@@ -123,10 +123,29 @@ export const getGroups = async (req, res) => {
       },
     });
 
+    const groupsWithUnreadCount = await Promise.all(
+      groups.map(async (group) => {
+        const unreadCount = await prisma.message.count({
+          where: {
+            chatId: group.id,
+            senderId: {
+              not: req.user.id,
+            },
+            status: "SENT",
+          },
+        });
+
+        return {
+          ...group,
+          unreadCount,
+        };
+      }),
+    );
+
     return res.status(200).json({
       success: true,
       data: {
-        groups,
+        groups: groupsWithUnreadCount,
       },
     });
   } catch (error) {

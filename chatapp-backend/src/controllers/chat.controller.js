@@ -153,10 +153,29 @@ export const getChats = async (req, res) => {
       },
     });
 
+    const chatsWithUnreadCount = await Promise.all(
+      chats.map(async (chat) => {
+        const unreadCount = await prisma.message.count({
+          where: {
+            chatId: chat.id,
+            senderId: {
+              not: req.user.id,
+            },
+            status: "SENT",
+          },
+        });
+
+        return {
+          ...chat,
+          unreadCount,
+        };
+      }),
+    );
+
     return res.status(200).json({
       success: true,
       data: {
-        chats,
+        chats: chatsWithUnreadCount,
       },
     });
   } catch (error) {

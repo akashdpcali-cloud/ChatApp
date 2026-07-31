@@ -62,7 +62,15 @@ function ConversationDisplay({
             <div
               className="chat-details"
               key={chat.id}
-              onClick={() => setSelectedChat(chat)}
+              onClick={() => {
+                setSelectedChat(chat);
+
+                setChats((prev) =>
+                  prev.map((c) =>
+                    c.id === chat.id ? { ...c, unreadCount: 0 } : c,
+                  ),
+                );
+              }}
             >
               <div className="chat-left-section">
                 <img
@@ -100,7 +108,9 @@ function ConversationDisplay({
                   })}
                 </div>
 
-                <div className="unread-number">0</div>
+                {chat.unreadCount > 0 && (
+                  <div className="unread-number">{chat.unreadCount}</div>
+                )}
               </div>
             </div>
           );
