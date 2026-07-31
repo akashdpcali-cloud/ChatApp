@@ -1,3 +1,3 @@
 ### Block a chat
-POST http://localhost:5000/api/chats/cms90t1eg000aepv8fbls3x66/block
+POST http://localhost:5000/api/chats/cms7k8eel000lept4kq611za1/block
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbXMyMGM3bm4wMDAwZXBuczVwZHc2cHYxIiwiaWF0IjoxNzg1NTExNTI0LCJleHAiOjE3ODYxMTYzMjR9.tsNRtjnD5B57N2W_rLZVVad-6Dp6KnkAnyS_drFEKlo

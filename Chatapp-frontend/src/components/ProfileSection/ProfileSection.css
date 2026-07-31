@@ -3,14 +3,12 @@
 =========================== */
 
 .profile-section {
-
   width: 100%;
   height: 100dvh;
 
   display: flex;
 
   background: #f5f7fb;
-
 }
 
 /* ===========================
@@ -18,7 +16,6 @@
 =========================== */
 
 .profile-left-section {
-
   width: 35%;
 
   padding: 40px;
@@ -29,11 +26,9 @@
   gap: 30px;
 
   box-sizing: border-box;
-
 }
 
 .profile-picture-section {
-
   background: white;
 
   border-radius: 18px;
@@ -44,32 +39,26 @@
   flex-direction: column;
   align-items: center;
 
-  box-shadow: 0 8px 25px rgba(0, 0, 0, .08);
-
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
 }
 
 .picture-div {
-
   position: relative;
 
   width: 150px;
   height: 150px;
-
 }
 
 .profile-picture {
-
   width: 150px;
   height: 150px;
 
   border-radius: 50%;
 
   object-fit: cover;
-
 }
 
 .camera-icon {
-
   position: absolute;
 
   right: 0;
@@ -88,51 +77,40 @@
 
   cursor: pointer;
 
-  transition: .2s;
-
+  transition: 0.2s;
 }
 
 .camera-icon:hover {
-
   transform: scale(1.1);
-
 }
 
 .username-div {
-
   margin-top: 25px;
 
   display: flex;
   align-items: center;
 
   gap: 10px;
-
 }
 
 .username-display {
-
   font-size: 1.5rem;
   font-weight: 600;
-
 }
 
 .pencile-icon {
-
   width: 18px;
   height: 18px;
 
   cursor: pointer;
 
   color: #555;
-
 }
 
 .email-display {
-
   margin-top: 8px;
 
   color: #666;
-
 }
 
 /* ===========================
@@ -140,30 +118,25 @@
 =========================== */
 
 .change-div {
-
   background: white;
 
   border-radius: 18px;
 
   padding: 25px;
 
-  box-shadow: 0 8px 25px rgba(0, 0, 0, .08);
-
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
 }
 
 .changes-title {
-
   font-size: 1.2rem;
   font-weight: 700;
 
   margin-bottom: 20px;
-
 }
 
 .change-password-div,
 .logout-div,
 .delete-account-div {
-
   padding: 16px;
 
   margin-bottom: 12px;
@@ -172,48 +145,35 @@
 
   cursor: pointer;
 
-  transition: .2s;
+  transition: 0.2s;
 
   font-weight: 500;
-
 }
 
 .change-password-div {
-
   background: #eef6ff;
-
 }
 
 .change-password-div:hover {
-
   background: #dcecff;
-
 }
 
 .logout-div {
-
   background: #fff5db;
-
 }
 
 .logout-div:hover {
-
   background: #ffe8a3;
-
 }
 
 .delete-account-div {
-
   background: #ffe5e5;
 
   color: #c62828;
-
 }
 
 .delete-account-div:hover {
-
   background: #ffd1d1;
-
 }
 
 /* ===========================
@@ -221,71 +181,60 @@
 =========================== */
 
 .profile-right-section {
-
   flex: 1;
 
   padding: 40px;
 
   box-sizing: border-box;
-
 }
 
 .blocked-list-box {
-
   background: white;
 
   height: auto;
 
   max-height: 610px;
 
-
   border-radius: 18px;
 
   padding: 30px;
 
-  box-shadow: 0 8px 25px rgba(0, 0, 0, .08);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
 
   box-sizing: border-box;
   display: flex;
-    flex-direction: column;
-
+  flex-direction: column;
 }
 
 .blocked-list-title {
-
   font-size: 1.4rem;
   font-weight: 700;
-
   margin-bottom: 25px;
-
 }
 
 .all-blocked-users {
+  flex: 1;
 
-    flex: 1;
+  overflow-y: auto;
 
-    overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 
-    display: flex;
-    flex-direction: column;
+  gap: 18px;
 
-    gap: 18px;
-
-    padding-right: 6px;
-
+  padding-right: 6px;
 }
 
 .all-blocked-users::-webkit-scrollbar {
-    width: 6px;
+  width: 6px;
 }
 
 .all-blocked-users::-webkit-scrollbar-thumb {
-    background: #bdbdbd;
-    border-radius: 10px;
+  background: #bdbdbd;
+  border-radius: 10px;
 }
 
 .blocked-user-details {
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -295,32 +244,26 @@
   border-radius: 12px;
 
   background: #f5f5f5;
-
 }
 
 .blocked-profile-picture {
-
   width: 55px;
   height: 55px;
 
   border-radius: 50%;
 
   object-fit: cover;
-
 }
 
 .blocked-username-display {
-
   flex: 1;
 
   margin-left: 18px;
 
   font-weight: 600;
-
 }
 
 .unblock-button {
-
   padding: 10px 18px;
 
   border: none;
@@ -333,14 +276,11 @@
 
   cursor: pointer;
 
-  transition: .2s;
-
+  transition: 0.2s;
 }
 
 .unblock-button:hover {
-
   background: rgb(0, 104, 173);
-
 }
 
 /* ===========================
@@ -348,24 +288,21 @@
 =========================== */
 
 .popup-overlay {
-
   position: fixed;
 
   inset: 0;
 
-  background: rgba(0, 0, 0, .45);
+  background: rgba(0, 0, 0, 0.45);
 
   display: flex;
   justify-content: center;
   align-items: center;
 
   z-index: 999;
-
 }
 
 .logout-popup,
 .delete-account-popup {
-
   width: 380px;
 
   background: white;
@@ -374,54 +311,42 @@
 
   padding: 30px;
 
-  box-shadow: 0 15px 40px rgba(0, 0, 0, .2);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
 
-  animation: popup .2s ease;
-
+  animation: popup 0.2s ease;
 }
 
 @keyframes popup {
-
   from {
-
     opacity: 0;
-    transform: scale(.9);
-
+    transform: scale(0.9);
   }
 
   to {
-
     opacity: 1;
     transform: scale(1);
-
   }
-
 }
 
 .logout-popup-message,
 .delete-account-popup-message {
-
   text-align: center;
 
   font-size: 1.1rem;
 
   margin-bottom: 30px;
-
 }
 
 .logout-options-div {
-
   display: flex;
 
   gap: 15px;
-
 }
 
 .logout-cancel-button,
 .logout-conferm-button,
 .delete-account-cancel-button,
 .delete-account-conferm-button {
-
   flex: 1;
 
   height: 45px;
@@ -433,34 +358,26 @@
   cursor: pointer;
 
   font-size: 1rem;
-
 }
 
 .logout-cancel-button,
 .delete-account-cancel-button {
-
   background: #e5e5e5;
-
 }
 
 .logout-conferm-button {
-
   background: #ff9800;
 
   color: white;
-
 }
 
 .delete-account-conferm-button {
-
   background: #d32f2f;
 
   color: white;
-
-
 }
 
-.username-input{
+.username-input {
   font-size: 20px;
   padding: 5px 10px;
   border-radius: 5px;
@@ -470,22 +387,17 @@
    MOBILE
 =========================== */
 
-@media(max-width:768px) {
-  
+@media (max-width: 768px) {
   .profile-section {
-
     flex-direction: column;
 
     height: auto;
-
   }
 
   .profile-left-section {
-
     width: 100%;
 
     padding: 20px;
-
   }
 
   .profile-right-section {
@@ -495,7 +407,6 @@
 
     box-sizing: border-box;
   }
-
 
   .blocked-list-box {
     width: 100%;
@@ -508,42 +419,33 @@
   }
 
   .picture-div {
-
     width: 120px;
     height: 120px;
-
   }
 
   .profile-picture {
-
     width: 120px;
     height: 120px;
-
   }
 
   .blocked-user-details {
-
     flex-direction: row;
 
     gap: 10px;
 
     text-align: center;
-
   }
 
   .blocked-username-display {
-
+    color: red;
+    opacity: 0.65;
     margin: 0;
-
+    align-self: center;
+    font-size: 17px;
   }
 
   .logout-popup,
   .delete-account-popup {
-
     width: 90%;
-
   }
-
-
-
 }

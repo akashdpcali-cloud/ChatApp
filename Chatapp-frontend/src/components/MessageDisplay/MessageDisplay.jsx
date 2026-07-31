@@ -1,7 +1,7 @@
 import "./MessageDisplay.css";
 import { EllipsisVertical, SendHorizontal, ArrowLeft } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-import { getChatMessages, sendMessage } from "../../api/chatApi";
+import { getChatMessages, sendMessage, blockChat } from "../../api/chatApi";
 import { socket } from "../../socket/socket";
 import boneSound from "../../assets/bone-crack.mp3";
 
@@ -319,9 +319,23 @@ function MessageDisplay({
             <div className="message-options">
               <div className="message-option">Clear Chat</div>
 
-              <div className="message-option">Block</div>
+              <div
+                className="message-option"
+                onClick={async () => {
+                  try {
+                    await blockChat(selectedChat.id);
 
-              <div className="message-option delete-option">Delete Contact</div>
+                    setShowMenu(false);
+                    setSelectedChat(null);
+                  } catch (error) {
+                    console.error(error);
+                  }
+                }}
+              >
+                Block
+              </div>
+
+              <div className="message-option delete-option">Delete</div>
             </div>
           )}
         </div>
