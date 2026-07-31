@@ -1,6 +1,5 @@
 ### Get one-to-one chats
 GET http://localhost:5000/api/chats/one-to-one-chat
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbXMyMGM3bm4wMDAwZXBuczVwZHc2cHYxIiwiaWF0IjoxNzg1NTA2MzE2LCJleHAiOjE3ODYxMTExMTZ9.d60C-AWgMeD8yH7eTjLtNsBKyH35bxCfF0qD7zKTVcE
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbXMyMGM3bm4wMDAwZXBuczVwZHc2cHYxIiwiaWF0IjoxNzg1NTA4MjQ5LCJleHAiOjE3ODYxMTMwNDl9.av6X0qMciz5ogspoW4UPKxgdZz-BMxH9kOjq8SO7yyE
 
   

@@ -263,9 +263,23 @@ export const getChatMessages = async (req, res) => {
       });
     }
 
+    const participant = await prisma.chatParticipant.findUnique({
+      where: {
+        chatId_userId: {
+          chatId,
+          userId: req.user.id,
+        },
+      },
+    });
+
     const messages = await prisma.message.findMany({
       where: {
         chatId,
+        ...(participant?.clearedAt && {
+          createdAt: {
+            gt: participant.clearedAt,
+          },
+        }),
       },
       include: {
         sender: {
@@ -426,6 +440,52 @@ export const deleteChat = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Chat deleted successfully.",
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+    });
+  }
+};
+
+export const clearChat = async (req, res) => {
+  try {
+    const { chatId } = req.params;
+
+    const participant = await prisma.chatParticipant.findUnique({
+      where: {
+        chatId_userId: {
+          chatId,
+          userId: req.user.id,
+        },
+      },
+    });
+
+    if (!participant) {
+      return res.status(404).json({
+        success: false,
+        message: "Chat not found.",
+      });
+    }
+
+    await prisma.chatParticipant.update({
+      where: {
+        chatId_userId: {
+          chatId,
+          userId: req.user.id,
+        },
+      },
+      data: {
+        clearedAt: new Date(),
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Chat cleared successfully.",
     });
   } catch (error) {
     console.error(error);
