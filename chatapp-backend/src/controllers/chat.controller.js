@@ -595,3 +595,66 @@ export const blockChat = async (req, res) => {
     });
   }
 };
+
+export const getBlockedChats = async (req, res) => {
+  try {
+    const blocked = await prisma.blockedChat.findMany({
+      where: {
+        userId: req.user.id,
+      },
+      include: {
+        chat: {
+          include: {
+            participants: {
+              include: {
+                user: {
+                  select: {
+                    id: true,
+                    fullName: true,
+                    profilePicture: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const blockedChats = blocked.map((item) => {
+      if (item.chat.isGroup) {
+        return {
+          chatId: item.chat.id,
+          isGroup: true,
+          groupName: item.chat.groupName,
+          groupImage: item.chat.groupImage,
+        };
+      }
+
+      const otherParticipant = item.chat.participants.find(
+        (participant) => participant.userId !== req.user.id,
+      );
+
+      return {
+        chatId: item.chat.id,
+        isGroup: false,
+        fullName: otherParticipant.user.fullName,
+        profilePicture: otherParticipant.user.profilePicture,
+      };
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        blocked: blockedChats,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+    });
+  }
+};

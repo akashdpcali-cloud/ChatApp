@@ -9,6 +9,7 @@ import {
   deleteChat,
   clearChat,
   blockChat,
+  getBlockedChats,
 } from "../controllers/chat.controller.js";
 
 const router = express.Router();
@@ -28,5 +29,7 @@ router.get("/:chatId/messages", protect, getChatMessages);
 router.delete("/:chatId/clear-chat", protect, clearChat);
 
 router.post("/:chatId/block", protect, blockChat);
+
+router.get("/blocked", protect, getBlockedChats);
 
 export default router;
