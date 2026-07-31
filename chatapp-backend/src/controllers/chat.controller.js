@@ -658,3 +658,46 @@ export const getBlockedChats = async (req, res) => {
     });
   }
 };
+
+export const unblockChat = async (req, res) => {
+  try {
+    const { chatId } = req.params;
+
+    const blockedChat = await prisma.blockedChat.findUnique({
+      where: {
+        userId_chatId: {
+          userId: req.user.id,
+          chatId,
+        },
+      },
+    });
+
+    if (!blockedChat) {
+      return res.status(404).json({
+        success: false,
+        message: "Chat is not blocked.",
+      });
+    }
+
+    await prisma.blockedChat.delete({
+      where: {
+        userId_chatId: {
+          userId: req.user.id,
+          chatId,
+        },
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Chat unblocked successfully.",
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+    });
+  }
+};
