@@ -120,8 +120,22 @@ export const createChat = async (req, res) => {
 
 export const getChats = async (req, res) => {
   try {
+    const blockedChats = await prisma.blockedChat.findMany({
+      where: {
+        userId: req.user.id,
+      },
+      select: {
+        chatId: true,
+      },
+    });
+
+    const blockedChatIds = blockedChats.map((chat) => chat.chatId);
+
     const chats = await prisma.chat.findMany({
       where: {
+        id: {
+          notIn: blockedChatIds,
+        },
         participants: {
           some: {
             userId: req.user.id,
@@ -190,9 +204,23 @@ export const getChats = async (req, res) => {
 
 export const getOneToOneChats = async (req, res) => {
   try {
+    const blockedChats = await prisma.blockedChat.findMany({
+      where: {
+        userId: req.user.id,
+      },
+      select: {
+        chatId: true,
+      },
+    });
+
+    const blockedChatIds = blockedChats.map((chat) => chat.chatId);
+
     const chats = await prisma.chat.findMany({
       where: {
         isGroup: false,
+        id: {
+          notIn: blockedChatIds,
+        },
         participants: {
           some: {
             userId: req.user.id,
@@ -486,6 +514,77 @@ export const clearChat = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Chat cleared successfully.",
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+    });
+  }
+};
+
+export const blockChat = async (req, res) => {
+  try {
+    const { chatId } = req.params;
+
+    // Check that the chat exists
+    const chat = await prisma.chat.findUnique({
+      where: {
+        id: chatId,
+      },
+      include: {
+        participants: true,
+      },
+    });
+
+    if (!chat) {
+      return res.status(404).json({
+        success: false,
+        message: "Chat not found.",
+      });
+    }
+
+    // User must be a participant
+    const isParticipant = chat.participants.some(
+      (participant) => participant.userId === req.user.id,
+    );
+
+    if (!isParticipant) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not a participant of this chat.",
+      });
+    }
+
+    // Already blocked?
+    const existingBlock = await prisma.blockedChat.findUnique({
+      where: {
+        userId_chatId: {
+          userId: req.user.id,
+          chatId,
+        },
+      },
+    });
+
+    if (existingBlock) {
+      return res.status(409).json({
+        success: false,
+        message: "Chat is already blocked.",
+      });
+    }
+
+    await prisma.blockedChat.create({
+      data: {
+        userId: req.user.id,
+        chatId,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Chat blocked successfully.",
     });
   } catch (error) {
     console.error(error);

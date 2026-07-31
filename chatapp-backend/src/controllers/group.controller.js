@@ -90,9 +90,23 @@ export const createGroup = async (req, res) => {
 
 export const getGroups = async (req, res) => {
   try {
+    const blockedChats = await prisma.blockedChat.findMany({
+      where: {
+        userId: req.user.id,
+      },
+      select: {
+        chatId: true,
+      },
+    });
+
+    const blockedChatIds = blockedChats.map((chat) => chat.chatId);
+
     const groups = await prisma.chat.findMany({
       where: {
         isGroup: true,
+        id: {
+          notIn: blockedChatIds,
+        },
         participants: {
           some: {
             userId: req.user.id,
