@@ -15,24 +15,6 @@
   font-weight: 700;
 }
 
-.search-bar {
-  width: calc(100% - 32px);
-  height: 42px;
-
-  margin: 0 auto 20px;
-  padding: 0 15px;
-
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  outline: none;
-
-  font-size: 0.95rem;
-}
-
-.search-bar:focus {
-  border-color: #111827;
-}
-
 .conversations {
   flex: 1;
   overflow-y: auto;

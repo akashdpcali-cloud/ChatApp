@@ -72,14 +72,11 @@
   font-size: 22px;
   font-weight: 500;
   color: #222;
-
 }
 
 .mobile-button {
   display: none;
 }
-
-
 
 @media (max-width: 768px) {
   .header {
@@ -104,8 +101,8 @@
     align-items: center;
 
     position: fixed;
-    right: 20px;
-    bottom: 76px;
+    right: 42px;
+    bottom: 90px;
 
     width: 60px;
     height: 60px;

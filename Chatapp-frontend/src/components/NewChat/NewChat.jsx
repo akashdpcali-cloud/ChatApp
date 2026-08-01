@@ -5,7 +5,7 @@ import { searchUsers, createChat, createGroup } from "../../api/chatApi";
 
 import "./NewChat.css";
 
-function NewChat({ setSelectedSection, setSelectedChat }) {
+function NewChat({ setSelectedSection, setSelectedChat, setErrorMessage }) {
   const [selectedTab, setSelectedTab] = useState("friend");
 
   const [searchText, setSearchText] = useState("");
@@ -19,26 +19,26 @@ function NewChat({ setSelectedSection, setSelectedChat }) {
   const [groupName, setGroupName] = useState("");
 
   const handleSearch = async (e) => {
-    if (e.key !== "Enter") return;
+    if (e && e.type === "keydown" && e.key !== "Enter") return;
 
     try {
       const data = await searchUsers(searchText);
-
       setSearchResults(data.data.user);
     } catch (error) {
       console.log(error);
+      setErrorMessage(error.response?.data?.message || "No users found");
     }
   };
 
   const handleGroupSearch = async (e) => {
-    if (e.key !== "Enter") return;
+    if (e && e.type === "keydown" && e.key !== "Enter") return;
 
     try {
       const data = await searchUsers(groupSearchText);
-
       setGroupSearchResults(data.data.user);
     } catch (error) {
       console.log(error);
+      setErrorMessage(error.response?.data?.message || "No users found");
     }
   };
 
@@ -58,8 +58,10 @@ function NewChat({ setSelectedSection, setSelectedChat }) {
     try {
       const data = await createChat(user.id);
 
+      localStorage.setItem("selectedSection", "chats");
       setSelectedSection("chats");
 
+      localStorage.setItem("selectedChatId", data.data.chat.id);
       setSelectedChat(data.data.chat);
     } catch (error) {
       console.log(error);
@@ -72,6 +74,7 @@ function NewChat({ setSelectedSection, setSelectedChat }) {
 
       const data = await createGroup(groupName, memberIds);
 
+      localStorage.setItem("selectedSection", "groups");
       setSelectedSection("groups");
 
       setSelectedChat(data.data.group);
@@ -110,7 +113,10 @@ function NewChat({ setSelectedSection, setSelectedChat }) {
               onKeyDown={handleSearch}
             />
 
-            <Search className="friend-chat-search-icon" />
+            <Search
+              className="friend-chat-search-icon"
+              onClick={handleSearch}
+            />
           </div>
 
           <div className="friend-search-result-div">
@@ -160,7 +166,10 @@ function NewChat({ setSelectedSection, setSelectedChat }) {
               onKeyDown={handleGroupSearch}
             />
 
-            <Search className="group-chat-search-icon" />
+            <Search
+              className="group-chat-search-icon"
+              onClick={handleGroupSearch}
+            />
           </div>
 
           <div className="group-search-result-div">

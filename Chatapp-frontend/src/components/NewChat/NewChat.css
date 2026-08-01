@@ -3,18 +3,16 @@
 =========================== */
 
 .new-chat-box {
+  width: 100%;
+  height: 100%;
 
-    width: 100%;
-    height: 100%;
+  padding: 30px;
 
-    padding: 30px;
+  box-sizing: border-box;
 
-    box-sizing: border-box;
+  overflow-y: auto;
 
-    overflow-y: auto;
-
-    background: #f5f7fb;
-
+  background: #f5f7fb;
 }
 
 /* ===========================
@@ -22,50 +20,42 @@
 =========================== */
 
 .new-chat-box-header {
+  width: fit-content;
 
-    width: fit-content;
+  margin: auto;
+  margin-bottom: 30px;
 
-    margin: auto;
-    margin-bottom: 30px;
+  display: flex;
 
-    display: flex;
+  background: white;
 
-    background: white;
+  border-radius: 12px;
 
-    border-radius: 12px;
+  overflow: hidden;
 
-    overflow: hidden;
-
-    box-shadow: 0 8px 20px rgba(0,0,0,.08);
-
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 .friend-chat-option,
 .group-chat-option {
+  padding: 15px 35px;
 
-    padding: 15px 35px;
+  cursor: pointer;
 
-    cursor: pointer;
+  font-weight: 600;
 
-    font-weight: 600;
-
-    transition: .2s;
-
+  transition: 0.2s;
 }
 
 .friend-chat-option:hover,
 .group-chat-option:hover {
-
-    background: #f0f0f0;
-
+  background: #f0f0f0;
 }
 
 .active-option {
+  background: rgb(0, 130, 216);
 
-    background: rgb(0,130,216);
-
-    color: white;
-
+  color: white;
 }
 
 /* ===========================
@@ -73,141 +63,116 @@
 =========================== */
 
 .friend-chat-option-div {
+  max-width: 700px;
 
-    max-width: 700px;
-
-    margin: auto;
-
+  margin: auto;
 }
 
 .friend-chat-search-dev {
+  position: relative;
 
-    position: relative;
-
-    margin-bottom: 25px;
-
+  margin-bottom: 25px;
 }
 
 .friend-chat-search {
+  width: 100%;
+  height: 50px;
 
-    width: 100%;
-    height: 50px;
+  padding: 0 55px 0 18px;
 
-    padding: 0 55px 0 18px;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
 
-    border: 1px solid #d9d9d9;
-    border-radius: 10px;
+  outline: none;
 
-    outline: none;
+  font-size: 1rem;
 
-    font-size: 1rem;
-
-    box-sizing: border-box;
-
+  box-sizing: border-box;
 }
 
 .friend-chat-search:focus {
-
-    border-color: rgb(0,130,216);
-
+  border-color: rgb(0, 130, 216);
 }
 
 .friend-chat-search-icon {
+  position: absolute;
 
-    position: absolute;
+  right: 16px;
+  top: 50%;
 
-    right: 16px;
-    top: 50%;
+  transform: translateY(-50%);
 
-    transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
 
-    width: 22px;
-    height: 22px;
-
-    color: #666;
-
+  color: #666;
+  cursor: pointer;
 }
 
 .friend-search-result-div {
+  display: flex;
+  flex-direction: column;
 
-    display: flex;
-    flex-direction: column;
-
-    gap: 18px;
-
+  gap: 18px;
 }
 
 .friend-search-result-details {
+  display: flex;
+  align-items: center;
 
-    display: flex;
-    align-items: center;
+  padding: 18px;
 
-    padding: 18px;
+  border-radius: 14px;
 
-    border-radius: 14px;
+  background: white;
 
-    background: white;
-
-    box-shadow: 0 6px 18px rgba(0,0,0,.06);
-
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
 .friend-search-result-details-profile-pic {
+  width: 60px;
+  height: 60px;
 
-    width: 60px;
-    height: 60px;
+  border-radius: 50%;
 
-    border-radius: 50%;
-
-    object-fit: cover;
-
+  object-fit: cover;
 }
 
 .friend-search-result-details-middle-section {
+  flex: 1;
 
-    flex: 1;
-
-    margin-left: 18px;
-
+  margin-left: 18px;
 }
 
 .friend-search-result-details-username {
-
-    font-size: 1.1rem;
-    font-weight: 600;
-
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .friend-search-result-details-email {
+  margin-top: 4px;
 
-    margin-top: 4px;
-
-    color: #666;
-
+  color: #666;
 }
 
 .friend-search-result-details-start-chat-button {
+  padding: 12px 22px;
 
-    padding: 12px 22px;
+  border: none;
 
-    border: none;
+  border-radius: 8px;
 
-    border-radius: 8px;
+  background: rgb(0, 130, 216);
 
-    background: rgb(0,130,216);
+  color: white;
 
-    color: white;
+  cursor: pointer;
 
-    cursor: pointer;
-
-    transition: .2s;
-
+  transition: 0.2s;
 }
 
 .friend-search-result-details-start-chat-button:hover {
-
-    background: rgb(0,105,180);
-
+  background: rgb(0, 105, 180);
 }
 
 /* ===========================
@@ -215,141 +180,116 @@
 =========================== */
 
 .group-chat-option-div {
+  max-width: 700px;
 
-    max-width: 700px;
-
-    margin: auto;
-
+  margin: auto;
 }
 
 .group-chat-search-dev {
+  position: relative;
 
-    position: relative;
-
-    margin-bottom: 25px;
-
+  margin-bottom: 25px;
 }
 
 .group-chat-search {
+  width: 100%;
+  height: 50px;
 
-    width: 100%;
-    height: 50px;
+  padding: 0 55px 0 18px;
 
-    padding: 0 55px 0 18px;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
 
-    border: 1px solid #d9d9d9;
-    border-radius: 10px;
+  outline: none;
 
-    outline: none;
+  font-size: 1rem;
 
-    font-size: 1rem;
-
-    box-sizing: border-box;
-
+  box-sizing: border-box;
 }
 
 .group-chat-search:focus {
-
-    border-color: rgb(0,130,216);
-
+  border-color: rgb(0, 130, 216);
 }
 
 .group-chat-search-icon {
+  position: absolute;
 
-    position: absolute;
+  right: 16px;
+  top: 50%;
 
-    right: 16px;
-    top: 50%;
+  transform: translateY(-50%);
 
-    transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
 
-    width: 22px;
-    height: 22px;
-
-    color: #666;
-
+  color: #666;
+  cursor: pointer;
 }
 
 .group-search-result-div {
+  display: flex;
+  flex-direction: column;
 
-    display: flex;
-    flex-direction: column;
-
-    gap: 18px;
-
+  gap: 18px;
 }
 
 .group-search-result-details {
+  display: flex;
+  align-items: center;
 
-    display: flex;
-    align-items: center;
+  padding: 18px;
 
-    padding: 18px;
+  border-radius: 14px;
 
-    border-radius: 14px;
+  background: white;
 
-    background: white;
-
-    box-shadow: 0 6px 18px rgba(0,0,0,.06);
-
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
 .group-search-result-details-profile-pic {
+  width: 60px;
+  height: 60px;
 
-    width: 60px;
-    height: 60px;
+  border-radius: 50%;
 
-    border-radius: 50%;
-
-    object-fit: cover;
-
+  object-fit: cover;
 }
 
 .group-search-result-details-middle-section {
+  flex: 1;
 
-    flex: 1;
-
-    margin-left: 18px;
-
+  margin-left: 18px;
 }
 
 .group-search-result-details-username {
-
-    font-size: 1.1rem;
-    font-weight: 600;
-
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .group-search-result-details-email {
+  margin-top: 4px;
 
-    margin-top: 4px;
-
-    color: #666;
-
+  color: #666;
 }
 
 .group-search-result-details-add-to-group-button {
+  padding: 12px 20px;
 
-    padding: 12px 20px;
+  border: none;
 
-    border: none;
+  border-radius: 8px;
 
-    border-radius: 8px;
+  background: rgb(0, 130, 216);
 
-    background: rgb(0,130,216);
+  color: white;
 
-    color: white;
+  cursor: pointer;
 
-    cursor: pointer;
-
-    transition: .2s;
-
+  transition: 0.2s;
 }
 
 .group-search-result-details-add-to-group-button:hover {
-
-    background: rgb(0,105,180);
-
+  background: rgb(0, 105, 180);
 }
 
 /* ===========================
@@ -357,156 +297,128 @@
 =========================== */
 
 .group-added-friends-list {
+  margin-top: 30px;
 
-    margin-top: 30px;
+  max-height: 220px;
 
-    max-height: 220px;
+  overflow-y: auto;
 
-    overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 
-    display: flex;
-    flex-direction: column;
+  gap: 15px;
 
-    gap: 15px;
-
-    border: rgb(0, 153, 255) 2px solid;
-    border-radius: 5px;
-    padding: 7px;
-    
-
+  border: rgb(0, 153, 255) 2px solid;
+  border-radius: 5px;
+  padding: 7px;
 }
 
 .group-added-friend-details {
+  display: flex;
+  align-items: center;
 
-    display: flex;
-    align-items: center;
+  padding: 15px;
 
-    padding: 15px;
+  border-radius: 12px;
 
-    border-radius: 12px;
+  background: white;
 
-    background: white;
-
-    box-shadow: 0 5px 15px rgba(0,0,0,.05);
-
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 .group-added-friend-profile-picture {
+  width: 50px;
+  height: 50px;
 
-    width: 50px;
-    height: 50px;
+  border-radius: 50%;
 
-    border-radius: 50%;
-
-    object-fit: cover;
-
+  object-fit: cover;
 }
 
 .group-added-friend-details-middle-section {
+  flex: 1;
 
-    flex: 1;
-
-    margin-left: 18px;
-
+  margin-left: 18px;
 }
 
 .group-added-friend-details-username {
-
-    font-weight: 600;
-
+  font-weight: 600;
 }
 
 .group-added-friend-details-email {
+  margin-top: 3px;
 
-    margin-top: 3px;
-
-    color: #666;
-
+  color: #666;
 }
 
 .remove-added-friend-from-group {
+  width: 22px;
+  height: 22px;
 
-    width: 22px;
-    height: 22px;
+  color: #888;
 
-    color: #888;
+  cursor: pointer;
 
-    cursor: pointer;
-
-    transition: .2s;
-
+  transition: 0.2s;
 }
 
 .remove-added-friend-from-group:hover {
+  color: #d32f2f;
 
-    color: #d32f2f;
-
-    transform: scale(1.1);
-
+  transform: scale(1.1);
 }
-
 
 /* ===========================
    CREATE GROUP
 =========================== */
 
 .group-creation-div {
+  margin-top: 30px;
 
-    margin-top: 30px;
+  display: flex;
 
-    display: flex;
-
-    gap: 15px;
-
+  gap: 15px;
 }
 
 .group-name-input {
+  flex: 1;
 
-    flex: 1;
+  height: 50px;
 
-    height: 50px;
+  padding: 0 18px;
 
-    padding: 0 18px;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
 
-    border: 1px solid #d9d9d9;
-    border-radius: 10px;
+  outline: none;
 
-    outline: none;
-
-    font-size: 1rem;
-
+  font-size: 1rem;
 }
 
 .group-name-input:focus {
-
-    border-color: rgb(0,130,216);
-
+  border-color: rgb(0, 130, 216);
 }
 
 .group-create-button {
+  padding: 0 30px;
 
-    padding: 0 30px;
+  border: none;
 
-    border: none;
+  border-radius: 10px;
 
-    border-radius: 10px;
+  background: rgb(0, 130, 216);
 
-    background: rgb(0,130,216);
+  color: white;
 
-    color: white;
+  font-weight: 600;
 
-    font-weight: 600;
+  cursor: pointer;
 
-    cursor: pointer;
-
-    transition: .2s;
-
+  transition: 0.2s;
 }
 
 .group-create-button:hover {
-
-    background: rgb(0,105,180);
-
+  background: rgb(0, 105, 180);
 }
 
 /* ===========================
@@ -514,116 +426,90 @@
 =========================== */
 
 .group-added-friends-list::-webkit-scrollbar {
-
-    width: 6px;
-
+  width: 6px;
 }
 
 .group-added-friends-list::-webkit-scrollbar-thumb {
+  background: #bdbdbd;
 
-    background: #bdbdbd;
-
-    border-radius: 10px;
-
+  border-radius: 10px;
 }
 
 /* ===========================
    MOBILE
 =========================== */
 
-@media (max-width:768px) {
+@media (max-width: 768px) {
+  .new-chat-box {
+    padding: 20px 15px 90px;
+  }
 
-    .new-chat-box {
+  .new-chat-box-header {
+    width: 100%;
+  }
 
-        padding: 20px 15px 90px;
+  .friend-chat-option,
+  .group-chat-option {
+    flex: 1;
 
-    }
+    text-align: center;
 
-    .new-chat-box-header {
+    padding: 15px 0;
+  }
 
-        width: 100%;
+  .friend-search-result-details,
+  .group-search-result-details {
+    flex-direction: row;
 
-    }
+    text-align: start;
 
-    .friend-chat-option,
-    .group-chat-option {
+    gap: 15px;
+  }
 
-        flex: 1;
+  .friend-search-result-details-middle-section,
+  .group-search-result-details-middle-section {
+    margin-left: 0;
+  }
 
-        text-align: center;
-
-        padding: 15px 0;
-
-    }
-
-    .friend-search-result-details,
-    .group-search-result-details {
-
-        flex-direction: row;
-
-        text-align: start;
-
-        gap: 15px;
-
-    }
-
-    .friend-search-result-details-middle-section,
-    .group-search-result-details-middle-section {
-
-        margin-left: 0;
-
-    }
-
-    .group-added-friend-details {
-
+  .group-added-friend-details {
     display: flex;
     align-items: center;
 
     gap: 12px;
+  }
 
-}
-
-    .group-added-friend-details-middle-section {
-
+  .group-added-friend-details-middle-section {
     flex: 1;
 
     margin-left: 0;
+  }
 
-}
-
-.remove-added-friend-from-group {
-
+  .remove-added-friend-from-group {
     margin-left: auto;
+  }
 
-}
+  .group-creation-div {
+    flex-direction: column;
+  }
 
-    .group-creation-div {
-
-        flex-direction: column;
-
-    }
-
-    .group-create-button {
-
-        height: 50px;
-        width: 40%;
-        align-self: center;
-        font-size: 13px;
-        font-weight: bold;
-
-    }
-
-    .group-name-input{
-      padding: 15px 20px;
-    }
-
-}
-
-.no-users-found{
+  .group-create-button {
+    height: 50px;
+    width: 40%;
     align-self: center;
+    font-size: 13px;
+    font-weight: bold;
+  }
+
+  .group-name-input {
+    padding: 15px 20px;
+  }
 }
 
-.group-added-friends-list-title{
-    color: rgb(0, 153, 255);
-    align-self: center;
+.no-users-found {
+  align-self: center;
+}
+
+.group-added-friends-list-title {
+  color: rgb(0, 153, 255);
+  align-self: center;
 }

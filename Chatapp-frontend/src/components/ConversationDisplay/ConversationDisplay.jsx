@@ -48,8 +48,6 @@ function ConversationDisplay({
     >
       <div className="section-name">Chats</div>
 
-      <input type="text" className="search-bar" placeholder="Search..." />
-
       <div className="conversations">
         {chats.map((chat) => {
           const otherUser = !chat.isGroup
@@ -63,6 +61,7 @@ function ConversationDisplay({
               className="chat-details"
               key={chat.id}
               onClick={() => {
+                localStorage.setItem("selectedChatId", chat.id);
                 setSelectedChat(chat);
 
                 setChats((prev) =>

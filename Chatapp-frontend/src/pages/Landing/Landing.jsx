@@ -12,7 +12,9 @@ export function Landing() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [selectedChat, setSelectedChat] = useState(null);
-  const [selectedSection, setSelectedSection] = useState("home");
+  const [selectedSection, setSelectedSection] = useState(
+    localStorage.getItem("selectedSection") || "home",
+  );
 
   const [typingChats, setTypingChats] = useState({});
 

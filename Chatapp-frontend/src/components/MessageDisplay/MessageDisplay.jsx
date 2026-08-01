@@ -279,6 +279,7 @@ function MessageDisplay({
             className="back-button"
             onClick={() => {
               socket.emit("leave-chat", selectedChat.id);
+              localStorage.removeItem("selectedChatId");
               setSelectedChat(null);
             }}
           />
@@ -311,8 +312,8 @@ function MessageDisplay({
               typingChats[selectedChat.id] !== user.fullName
                 ? `typing...`
                 : selectedChat?.isGroup
-                  ? "Group"
-                  : "Active now"}
+                  ? "Group Chat"
+                  : "Individual Chat"}
             </div>
           </div>
         </div>
@@ -348,6 +349,7 @@ function MessageDisplay({
                     await blockChat(selectedChat.id);
 
                     setShowMenu(false);
+                    localStorage.removeItem("selectedChatId");
                     setSelectedChat(null);
                   } catch (error) {
                     console.error(error);
@@ -368,6 +370,7 @@ function MessageDisplay({
                     }
 
                     setShowMenu(false);
+                    localStorage.removeItem("selectedChatId");
                     setSelectedChat(null);
                   } catch (error) {
                     console.error(error);
