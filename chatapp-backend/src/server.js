@@ -23,22 +23,26 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const server = http.createServer(app);
 
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+
 // Initialize Socket.IO
 initializeSocket(server);
 
-app.use(cors());
+app.use(
+  cors({
+    origin: FRONTEND_URL,
+    credentials: true,
+  }),
+);
 
 app.use(
   helmet({
     crossOriginResourcePolicy: false,
-  })
+  }),
 );
 
 app.use((req, res, next) => {
-  res.setHeader(
-    "Cross-Origin-Resource-Policy",
-    "cross-origin"
-  );
+  res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
 
   next();
 });
@@ -53,19 +57,21 @@ app.get("/", (req, res) => {
   });
 });
 
+// Health check for Render
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    success: true,
+    status: "OK",
+  });
+});
+
 app.use("/api/auth", authRoutes);
 
 app.use("/api/users", userRoutes);
 
-app.use(
-  "/uploads",
-  express.static(path.join(__dirname, "../public/uploads"))
-);
+app.use("/uploads", express.static(path.join(__dirname, "../public/uploads")));
 
-app.use(
-  "/images",
-  express.static(path.join(__dirname, "../public/images"))
-);
+app.use("/images", express.static(path.join(__dirname, "../public/images")));
 
 app.use("/api/chats", chatRoutes);
 

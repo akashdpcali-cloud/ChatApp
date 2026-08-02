@@ -6,7 +6,7 @@ let io;
 export const initializeSocket = (server) => {
   io = new Server(server, {
     cors: {
-      origin: "http://localhost:5173",
+      origin: process.env.FRONTEND_URL || "http://localhost:5173",
       credentials: true,
     },
   });
@@ -46,7 +46,10 @@ export const initializeSocket = (server) => {
     // Mark messages as read
     socket.on("mark-read", async ({ chatId, userId }) => {
       try {
-        console.log("📥 mark-read received", { chatId, userId });
+        console.log("📥 mark-read received", {
+          chatId,
+          userId,
+        });
 
         const result = await prisma.message.updateMany({
           where: {
