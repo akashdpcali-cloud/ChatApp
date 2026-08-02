@@ -126,7 +126,7 @@ function NewChat({ setSelectedSection, setSelectedChat, setErrorMessage }) {
               searchResults.map((user) => (
                 <div className="friend-search-result-details" key={user.id}>
                   <img
-                    src={`http://localhost:5000${user.profilePicture}`}
+                    src={`${import.meta.env.VITE_API_URL}${user.profilePicture}`}
                     alt=""
                     className="friend-search-result-details-profile-pic"
                   />
@@ -179,7 +179,7 @@ function NewChat({ setSelectedSection, setSelectedChat, setErrorMessage }) {
               groupSearchResults.map((user) => (
                 <div className="group-search-result-details" key={user.id}>
                   <img
-                    src={`http://localhost:5000${user.profilePicture}`}
+                    src={`${import.meta.env.VITE_API_URL}${user.profilePicture}`}
                     alt=""
                     className="group-search-result-details-profile-pic"
                   />
@@ -213,7 +213,7 @@ function NewChat({ setSelectedSection, setSelectedChat, setErrorMessage }) {
             {groupMembers.map((member) => (
               <div className="group-added-friend-details" key={member.id}>
                 <img
-                  src={`http://localhost:5000${member.profilePicture}`}
+                  src={`${import.meta.env.VITE_API_URL}${member.profilePicture}`}
                   alt=""
                   className="group-added-friend-profile-picture"
                 />

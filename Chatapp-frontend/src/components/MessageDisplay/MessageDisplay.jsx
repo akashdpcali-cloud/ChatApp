@@ -287,11 +287,11 @@ function MessageDisplay({
           <img
             src={
               selectedChat?.isGroup
-                ? `http://localhost:5000${
+                ? `${import.meta.env.VITE_API_URL}${
                     selectedChat.groupImage ||
                     "/images/chatapp-default-group.jpeg"
                   }`
-                : `http://localhost:5000${
+                : `${import.meta.env.VITE_API_URL}${
                     otherParticipant?.user.profilePicture ||
                     "/images/chatapp-default-avatar.jpeg"
                   }`

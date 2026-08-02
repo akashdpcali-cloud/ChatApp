@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/chats";
+const API_URL = `${import.meta.env.VITE_API_URL}/api/chats`;
 
 export const getAllChats = async () => {
   const token = localStorage.getItem("token");
@@ -18,7 +18,7 @@ export const getOneToOneChats = async () => {
   const token = localStorage.getItem("token");
 
   const response = await axios.get(
-    "http://localhost:5000/api/chats/one-to-one-chat",
+    `${import.meta.env.VITE_API_URL}/api/chats/one-to-one-chat`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -32,11 +32,14 @@ export const getOneToOneChats = async () => {
 export const getGroups = async () => {
   const token = localStorage.getItem("token");
 
-  const response = await axios.get("http://localhost:5000/api/groups", {
-    headers: {
-      Authorization: `Bearer ${token}`,
+  const response = await axios.get(
+    `${import.meta.env.VITE_API_URL}/api/groups`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
 
   return response.data;
 };
@@ -45,7 +48,7 @@ export const searchUsers = async (query) => {
   const token = localStorage.getItem("token");
 
   const response = await axios.get(
-    `http://localhost:5000/api/users/search?query=${encodeURIComponent(query)}`,
+    `${import.meta.env.VITE_API_URL}/api/users/search?query=${encodeURIComponent(query)}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -60,7 +63,7 @@ export const createChat = async (userId) => {
   const token = localStorage.getItem("token");
 
   const response = await axios.post(
-    "http://localhost:5000/api/chats",
+    `${import.meta.env.VITE_API_URL}/api/chats`,
     {
       userId,
     },
@@ -78,7 +81,7 @@ export const createGroup = async (groupName, memberIds) => {
   const token = localStorage.getItem("token");
 
   const response = await axios.post(
-    "http://localhost:5000/api/groups",
+    `${import.meta.env.VITE_API_URL}/api/groups`,
     {
       groupName,
       memberIds,
@@ -97,7 +100,7 @@ export const getChatMessages = async (chatId) => {
   const token = localStorage.getItem("token");
 
   const response = await axios.get(
-    `http://localhost:5000/api/chats/${chatId}/messages`,
+    `${import.meta.env.VITE_API_URL}/api/chats/${chatId}/messages`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -112,7 +115,7 @@ export const sendMessage = async (chatId, content) => {
   const token = localStorage.getItem("token");
 
   const response = await axios.post(
-    `http://localhost:5000/api/chats/${chatId}/messages`,
+    `${import.meta.env.VITE_API_URL}/api/chats/${chatId}/messages`,
     { content },
     {
       headers: {
@@ -127,11 +130,14 @@ export const sendMessage = async (chatId, content) => {
 export const getBlockedChats = async () => {
   const token = localStorage.getItem("token");
 
-  const response = await axios.get("http://localhost:5000/api/chats/blocked", {
-    headers: {
-      Authorization: `Bearer ${token}`,
+  const response = await axios.get(
+    `${import.meta.env.VITE_API_URL}/api/chats/blocked`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
 
   return response.data;
 };
@@ -140,7 +146,7 @@ export const blockChat = async (chatId) => {
   const token = localStorage.getItem("token");
 
   const response = await axios.post(
-    `http://localhost:5000/api/chats/${chatId}/block`,
+    `${import.meta.env.VITE_API_URL}/api/chats/${chatId}/block`,
     {},
     {
       headers: {
@@ -156,7 +162,7 @@ export const unblockChat = async (chatId) => {
   const token = localStorage.getItem("token");
 
   const response = await axios.delete(
-    `http://localhost:5000/api/chats/${chatId}/block`,
+    `${import.meta.env.VITE_API_URL}/api/chats/${chatId}/block`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -171,7 +177,7 @@ export const clearChat = async (chatId) => {
   const token = localStorage.getItem("token");
 
   const response = await axios.delete(
-    `http://localhost:5000/api/chats/${chatId}/clear-chat`,
+    `${import.meta.env.VITE_API_URL}/api/chats/${chatId}/clear-chat`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -186,7 +192,7 @@ export const deleteChat = async (chatId) => {
   const token = localStorage.getItem("token");
 
   const response = await axios.delete(
-    `http://localhost:5000/api/chats/${chatId}`,
+    `${import.meta.env.VITE_API_URL}/api/chats/${chatId}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -201,7 +207,7 @@ export const deleteGroup = async (chatId) => {
   const token = localStorage.getItem("token");
 
   const response = await axios.delete(
-    `http://localhost:5000/api/groups/${chatId}`,
+    `${import.meta.env.VITE_API_URL}/api/groups/${chatId}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

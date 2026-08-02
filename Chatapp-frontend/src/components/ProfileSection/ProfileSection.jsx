@@ -119,7 +119,7 @@ function ProfileSection({ setErrorMessage }) {
             <div className="picture-div">
               {user?.profilePicture && (
                 <img
-                  src={`http://localhost:5000${user.profilePicture}`}
+                  src={`${import.meta.env.VITE_API_URL}${user.profilePicture}`}
                   alt="profile"
                   className="profile-picture"
                 />
@@ -204,8 +204,8 @@ function ProfileSection({ setErrorMessage }) {
                     <img
                       src={
                         user.isGroup
-                          ? `http://localhost:5000${user.groupImage || "/images/chatapp-default-group.jpeg"}`
-                          : `http://localhost:5000${user.profilePicture || "/images/chatapp-default-avatar.jpeg"}`
+                          ? `${import.meta.env.VITE_API_URL}${user.groupImage || "/images/chatapp-default-group.jpeg"}`
+                          : `${import.meta.env.VITE_API_URL}${user.profilePicture || "/images/chatapp-default-avatar.jpeg"}`
                       }
                       alt=""
                       className="blocked-profile-picture"

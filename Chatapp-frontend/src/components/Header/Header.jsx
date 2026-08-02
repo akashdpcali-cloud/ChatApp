@@ -20,7 +20,7 @@ export default function Header({ selectedChat, setSelectedSection }) {
         <div className="profile-section-header">
           {user?.profilePicture && (
             <img
-              src={`http://localhost:5000${user.profilePicture}`}
+              src={`${import.meta.env.VITE_API_URL}${user.profilePicture}`}
               alt="profile"
               className="profile-pic"
             />

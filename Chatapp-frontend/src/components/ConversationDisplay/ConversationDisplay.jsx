@@ -75,8 +75,8 @@ function ConversationDisplay({
                 <img
                   src={
                     chat.isGroup
-                      ? `http://localhost:5000${chat.groupImage || "/images/chatapp-default-group.jpeg"}`
-                      : `http://localhost:5000${otherUser?.profilePicture || "/images/chatapp-default-avatar.jpeg"}`
+                      ? `${import.meta.env.VITE_API_URL}${chat.groupImage || "/images/chatapp-default-group.jpeg"}`
+                      : `${import.meta.env.VITE_API_URL}${otherUser?.profilePicture || "/images/chatapp-default-avatar.jpeg"}`
                   }
                   alt=""
                   className="profile-pic"
