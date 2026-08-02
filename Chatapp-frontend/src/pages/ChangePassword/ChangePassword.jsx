@@ -96,7 +96,7 @@ function ChangePassword() {
           CHANGE PASSWORD
         </button>
 
-        <Link to="/" className="profile-back-link">
+        <Link to="/landing" className="profile-back-link">
           Back to Profile
         </Link>
       </div>
