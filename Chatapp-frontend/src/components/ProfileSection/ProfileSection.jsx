@@ -54,7 +54,7 @@ function ProfileSection({ setErrorMessage }) {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
 
-        navigate("/login");
+        navigate("/");
       }
     } catch (error) {
       setErrorMessage(error.response?.data?.message || "Delete account failed");
@@ -69,7 +69,7 @@ function ProfileSection({ setErrorMessage }) {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
 
-        navigate("/login");
+        navigate("/");
       }
     } catch (error) {
       setErrorMessage(error.response?.data?.message || "Logout failed");

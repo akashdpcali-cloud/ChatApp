@@ -39,7 +39,7 @@ function Login() {
 
         socket.connect();
 
-        navigate("/");
+        navigate("/landing");
       }
     } catch (error) {
       setErrorMessage(error.response?.data?.message || "Something went wrong.");
@@ -92,10 +92,6 @@ function Login() {
         <button className="login-button" onClick={handleLogin}>
           LOGIN
         </button>
-
-        <Link to="/forgot-password" className="forgot-password">
-          Forgot Password?
-        </Link>
 
         <div className="seperation-line">Or login with</div>
 

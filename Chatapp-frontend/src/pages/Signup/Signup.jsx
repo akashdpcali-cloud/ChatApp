@@ -43,7 +43,7 @@ function Signup() {
 
         socket.connect();
 
-        navigate("/");
+        navigate("/landing");
       }
     } catch (error) {
       setErrorMessage(error.response?.data?.message || "Something went wrong.");
