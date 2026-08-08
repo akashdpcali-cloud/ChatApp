@@ -125,4 +125,8 @@
 
     border-right: none;
   }
+
+  .latest-message {
+    max-width: 80%;
+  }
 }
