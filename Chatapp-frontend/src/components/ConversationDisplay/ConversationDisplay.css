@@ -128,5 +128,6 @@
 
   .latest-message {
     max-width: 80%;
+    overflow: hidden;
   }
 }
