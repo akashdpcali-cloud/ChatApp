@@ -121,6 +121,7 @@
 @media (max-width: 768px) {
   .conversation-display-section {
     width: 100%;
+    width: 100vb;
     height: calc(100dvh - 70px - 70px); /* Header - Bottom Menu */
 
     border-right: none;
